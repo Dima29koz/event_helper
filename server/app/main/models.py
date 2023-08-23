@@ -14,6 +14,19 @@ def load_user(user_id):
     return get_user_by_id(user_id)
 
 
+person_to_event = db.Table(
+    'person_to_event',
+    db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
+    db.Column('member_id', db.Integer, db.ForeignKey('event_member.id')),
+)
+
+product_to_event = db.Table(
+    'product_to_event',
+    db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
+    db.Column('product_id', db.Integer, db.ForeignKey('product.id')),
+)
+
+
 class User(db.Model, UserMixin):
     def __init__(self, username: str, email: str, pwd: str):
         self.username = username
@@ -61,7 +74,7 @@ class User(db.Model, UserMixin):
         db.session.commit()
 
     def set_name(self, new_name: str):
-        self.name = new_name
+        self.username = new_name
         db.session.commit()
 
     def set_pwd(self, new_pwd: str):
@@ -100,7 +113,7 @@ class Role(db.Model):
 
     __tablename__ = 'role'
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(50), unique=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
 
     def add(self):
         try:
@@ -141,7 +154,7 @@ class Event(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     description = db.Column(db.UnicodeText)
-    address_id = db.Column(db.Integer(), db.ForeignKey('address.id'), nullable=False)
+    location_id = db.Column(db.Integer(), db.ForeignKey('location.id'), nullable=False)
     date_start = db.Column(db.DateTime, nullable=False)
     date_end = db.Column(db.DateTime, nullable=False)
     cost_reduction_factor = db.Column(db.Integer, default=25, nullable=False)
@@ -150,8 +163,8 @@ class Event(db.Model):
         return self.title
 
 
-class Address(db.Model):
-    __tablename__ = 'address'
+class Location(db.Model):
+    __tablename__ = 'location'
     id = db.Column(db.Integer(), primary_key=True)
     address = db.Column(db.String(100), nullable=False)
     geo = db.Column(db.String(100), nullable=False)
@@ -222,4 +235,4 @@ class Product(db.Model):
     market = db.Column(db.String(50))
 
     def __repr__(self):
-        return self.name
+        return self.id
