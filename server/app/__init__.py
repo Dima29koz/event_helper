@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -37,9 +38,11 @@ def create_app(config: BaseConfig) -> Flask:
         db.create_all()
 
     from .main import main as main_blueprint
+    from .user_account import user_account as user_account_blueprint
 
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(user_account_blueprint)
 
     sio.init_app(app, logger=config.LOGGER, manage_session=config.MANAGE_SESSION)
-
+    CORS(app)
     return app

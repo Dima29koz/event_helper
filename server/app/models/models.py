@@ -6,12 +6,22 @@ from flask import current_app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from server.app import login_manager, db
+from server.app import db, login_manager
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return get_user_by_id(user_id)
+
+
+def add(db_object):
+    try:
+        db.session.add(db_object)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        db.session.rollback()
+        raise
 
 
 person_to_event = db.Table(
@@ -28,11 +38,13 @@ product_to_event = db.Table(
 
 
 class User(db.Model, UserMixin):
-    def __init__(self, username: str, email: str, pwd: str):
-        self.username = username
-        self.email = email
-        self.pwd = generate_password_hash(pwd)
-        self.add()
+    def __init__(self, user_data: dict):
+        self.username = user_data.get('username')
+        self.full_name = user_data.get('full_name')
+        self.email = user_data.get('email')
+        self.phone = user_data.get('phone')
+        self.contacts = user_data.get('contacts')
+        self.pwd = generate_password_hash(user_data.get('pwd'))
 
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -59,14 +71,11 @@ class User(db.Model, UserMixin):
         """
         return check_password_hash(self.pwd, password)
 
-    def add(self):
-        """added user to DB"""
-        try:
-            db.session.add(self)
-            db.session.commit()
-        except Exception as e:
-            print(e)
-            db.session.rollback()
+    def create(self):
+        if not get_user_by_username(self.username):
+            add(self)
+            return self
+        return
 
     def set_email(self, new_email: str):
         self.email = new_email
@@ -104,6 +113,16 @@ class User(db.Model, UserMixin):
 def get_user_by_id(user_id: int) -> User | None:
     """returns user by id if user exists"""
     return User.query.filter_by(id=user_id).first()
+
+
+def get_user_by_username(username: str) -> User | None:
+    """returns user by username if user exists"""
+    return User.query.filter_by(username=username).first()
+
+
+def create_user(user_data: dict) -> User | None:
+    user = User(user_data)
+    return user.create()
 
 
 class Role(db.Model):
