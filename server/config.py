@@ -4,6 +4,10 @@ app_dir = os.path.abspath(os.path.dirname(__file__))
 
 
 def get_config():
+    """
+
+    :return: Returns config object based on `FLASK_ENV` env variable
+    """
     match os.environ.get('FLASK_ENV'):
         case 'dev':
             return DevelopmentConfig
@@ -18,7 +22,7 @@ class BaseConfig:
     DEBUG = False
     LOGGER = False
     CSRF_ENABLED = True
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'A SECRET KEY'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     MANAGE_SESSION = True
