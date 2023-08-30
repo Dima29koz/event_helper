@@ -46,7 +46,12 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">server package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="server.app.html">server.app package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#server-config-module">server.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-server.config">server.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#server.config.BaseConfig"><code class="docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#server.config.DevelopmentConfig"><code class="docutils literal notranslate"><span class="pre">DevelopmentConfig</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#server.config.get_config"><code class="docutils literal notranslate"><span class="pre">get_config()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="endpoints.html">user_account endpoints</a></li>
@@ -84,13 +89,37 @@
 <li class="toctree-l2"><a class="reference internal" href="server.app.main.html">server.app.main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html">server.app.models module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html">server.app.user_account module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server.app.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.html#module-server.app">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<section id="server-config-module">
-<h2>server.config module<a class="headerlink" href="#server-config-module" title="Permalink to this heading"></a></h2>
+<section id="module-server.config">
+<span id="server-config-module"></span><h2>server.config module<a class="headerlink" href="#module-server.config" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="server.config.BaseConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.config.</span></span><span class="sig-name descname"><span class="pre">BaseConfig</span></span><a class="headerlink" href="#server.config.BaseConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base flask-app config object</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="server.config.DevelopmentConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.config.</span></span><span class="sig-name descname"><span class="pre">DevelopmentConfig</span></span><a class="headerlink" href="#server.config.DevelopmentConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#server.config.BaseConfig" title="server.config.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
+<p>Development flask-app config object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.config.get_config">
+<span class="sig-prename descclassname"><span class="pre">server.config.</span></span><span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.config.get_config" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns config object based on <cite>FLASK_ENV</cite> env variable</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
