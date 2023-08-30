@@ -85,7 +85,7 @@ def profile_settings():
     )
 
 
-@user_account.route('/api/confirm_email/<token>')
+@user_account.route('/api/confirm_email/<string:token>')
 def confirm_email(token):
     user = models.User.verify_token(token, 'confirm_email')
     if not user:
@@ -100,7 +100,7 @@ def confirm_email(token):
     )
 
 
-@user_account.route('/api/reset_password/<token>', methods=['POST'])
+@user_account.route('/api/reset_password/<string:token>', methods=['POST'])
 def reset_password(token):
     request_data = request.get_json()
     if current_user.is_authenticated:

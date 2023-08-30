@@ -5,7 +5,7 @@ from . import main
 
 @main.route('/')
 def index():
-    """view of `game` page"""
+    """Index page view"""
     return render_template('index.html')
 
 
