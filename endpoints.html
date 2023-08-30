@@ -4,16 +4,18 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>user_account endpoints &mdash; Event helper  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <title>user_account endpoints &mdash; Event helper  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -39,7 +41,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="server.html">server package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">user_account endpoints</a><ul class="simple">
@@ -72,17 +74,17 @@
            <div itemprop="articleBody">
              
   <section id="user-account-endpoints">
-<h1>user_account endpoints<a class="headerlink" href="#user-account-endpoints" title="Permalink to this headline">¶</a></h1>
+<h1>user_account endpoints<a class="headerlink" href="#user-account-endpoints" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<dl class="get">
-<dt id="get--">
-<code class="sig-name descname">GET </code><code class="sig-name descname">/</code><a class="headerlink" href="#get--" title="Permalink to this definition">¶</a></dt>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/</span></span><a class="headerlink" href="#get--" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="post">
-<dt id="post--api-login">
-<code class="sig-name descname">POST </code><code class="sig-name descname">/api/login</code><a class="headerlink" href="#post--api-login" title="Permalink to this definition">¶</a></dt>
+<dl class="http post">
+<dt class="sig sig-object http" id="post--api-login">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/api/login</span></span><a class="headerlink" href="#post--api-login" title="Permalink to this definition"></a></dt>
 <dd><p><strong>Example request:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
@@ -104,15 +106,15 @@
 <dl class="field-list simple">
 <dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="post">
-<dt id="post--api-registration">
-<code class="sig-name descname">POST </code><code class="sig-name descname">/api/registration</code><a class="headerlink" href="#post--api-registration" title="Permalink to this definition">¶</a></dt>
+<dl class="http post">
+<dt class="sig sig-object http" id="post--api-registration">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/api/registration</span></span><a class="headerlink" href="#post--api-registration" title="Permalink to this definition"></a></dt>
 <dd><p><strong>Example request:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Admin&quot;</span><span class="p">,</span>
@@ -139,15 +141,15 @@
 <dl class="field-list simple">
 <dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="post">
-<dt id="post--api-reset_password_request">
-<code class="sig-name descname">POST </code><code class="sig-name descname">/api/reset_password_request</code><a class="headerlink" href="#post--api-reset_password_request" title="Permalink to this definition">¶</a></dt>
+<dl class="http post">
+<dt class="sig sig-object http" id="post--api-reset_password_request">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/api/reset_password_request</span></span><a class="headerlink" href="#post--api-reset_password_request" title="Permalink to this definition"></a></dt>
 <dd><p><strong>Example request:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Admin&quot;</span>
@@ -169,15 +171,15 @@
 <dl class="field-list simple">
 <dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="get">
-<dt id="get--api-profile_settings">
-<code class="sig-name descname">GET </code><code class="sig-name descname">/api/profile_settings</code><a class="headerlink" href="#get--api-profile_settings" title="Permalink to this definition">¶</a></dt>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--api-profile_settings">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/api/profile_settings</span></span><a class="headerlink" href="#get--api-profile_settings" title="Permalink to this definition"></a></dt>
 <dd><p><strong>Example response:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -197,15 +199,15 @@
 <dl class="field-list simple">
 <dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="get">
-<dt id="get--api-confirm_email-(str-token)">
-<code class="sig-name descname">GET </code><code class="sig-name descname">/api/confirm_email/</code><span class="sig-paren">(</span><em class="property">str: </em><em class="sig-param">token</em><span class="sig-paren">)</span><a class="headerlink" href="#get--api-confirm_email-(str-token)" title="Permalink to this definition">¶</a></dt>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--api-confirm_email-(str-token)">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/api/confirm_email/</span></span><span class="sig-paren">(</span><em class="property"><span class="pre">str:</span> </em><em class="sig-param"><span class="pre">token</span></em><span class="sig-paren">)</span><a class="headerlink" href="#get--api-confirm_email-(str-token)" title="Permalink to this definition"></a></dt>
 <dd><p><strong>Example response:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
@@ -221,15 +223,15 @@
 <dl class="field-list simple">
 <dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="post">
-<dt id="post--api-reset_password-(str-token)">
-<code class="sig-name descname">POST </code><code class="sig-name descname">/api/reset_password/</code><span class="sig-paren">(</span><em class="property">str: </em><em class="sig-param">token</em><span class="sig-paren">)</span><a class="headerlink" href="#post--api-reset_password-(str-token)" title="Permalink to this definition">¶</a></dt>
+<dl class="http post">
+<dt class="sig sig-object http" id="post--api-reset_password-(str-token)">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/api/reset_password/</span></span><span class="sig-paren">(</span><em class="property"><span class="pre">str:</span> </em><em class="sig-param"><span class="pre">token</span></em><span class="sig-paren">)</span><a class="headerlink" href="#post--api-reset_password-(str-token)" title="Permalink to this definition"></a></dt>
 <dd><p><strong>Example request:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;new_pwd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1234&quot;</span>
@@ -251,15 +253,15 @@
 <dl class="field-list simple">
 <dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="get">
-<dt id="get--api-logout">
-<code class="sig-name descname">GET </code><code class="sig-name descname">/api/logout</code><a class="headerlink" href="#get--api-logout" title="Permalink to this definition">¶</a></dt>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--api-logout">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/api/logout</span></span><a class="headerlink" href="#get--api-logout" title="Permalink to this definition"></a></dt>
 <dd><p><strong>Example response:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1234&quot;</span><span class="p">,</span>
@@ -270,7 +272,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
 </ul>
 </dd>
 </dl>
