@@ -1,5 +1,5 @@
-user\_account endpoints
-=======================
+endpoints
+=========
 
 .. toctree::
    :maxdepth: 2
