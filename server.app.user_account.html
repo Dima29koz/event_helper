@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="user_account endpoints" href="endpoints.html" />
+    <link rel="next" title="endpoints" href="endpoints.html" />
     <link rel="prev" title="server.app.models module" href="server.app.models.html" /> 
 </head>
 
@@ -48,14 +48,24 @@
 <li class="toctree-l2 current"><a class="reference internal" href="server.app.html">server.app package</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="server.app.main.html">server.app.main module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="server.app.models.html">server.app.models module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">server.app.user_account module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="server.app.html#module-contents">Module contents</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">server.app.user_account module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.confirm_email"><code class="docutils literal notranslate"><span class="pre">confirm_email()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.login"><code class="docutils literal notranslate"><span class="pre">login()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.logout"><code class="docutils literal notranslate"><span class="pre">logout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.profile_settings"><code class="docutils literal notranslate"><span class="pre">profile_settings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.refresh_expiring_jwts"><code class="docutils literal notranslate"><span class="pre">refresh_expiring_jwts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.registration"><code class="docutils literal notranslate"><span class="pre">registration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.reset_password"><code class="docutils literal notranslate"><span class="pre">reset_password()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.reset_password_request"><code class="docutils literal notranslate"><span class="pre">reset_password_request()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="server.app.html#module-server.app">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="server.html#module-server.config">server.config module</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="endpoints.html">user_account endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints.html">endpoints</a></li>
 </ul>
 
         </div>
@@ -84,8 +94,50 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="server-app-user-account-module">
-<h1>server.app.user_account module<a class="headerlink" href="#server-app-user-account-module" title="Permalink to this heading"></a></h1>
+  <section id="module-server.app.user_account.routes">
+<span id="server-app-user-account-module"></span><h1>server.app.user_account module<a class="headerlink" href="#module-server.app.user_account.routes" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.confirm_email">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">confirm_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.confirm_email" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.login">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.login" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.logout">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.logout" title="Permalink to this definition"></a></dt>
+<dd><p>logs out user</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.profile_settings">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">profile_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.profile_settings" title="Permalink to this definition"></a></dt>
+<dd><p>view of <cite>profile</cite> page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.refresh_expiring_jwts">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">refresh_expiring_jwts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.refresh_expiring_jwts" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.registration">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">registration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.registration" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.reset_password">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">reset_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.reset_password" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.reset_password_request">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">reset_password_request</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.reset_password_request" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 
 
@@ -93,7 +145,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="server.app.models.html" class="btn btn-neutral float-left" title="server.app.models module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="endpoints.html" class="btn btn-neutral float-right" title="user_account endpoints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="endpoints.html" class="btn btn-neutral float-right" title="endpoints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
