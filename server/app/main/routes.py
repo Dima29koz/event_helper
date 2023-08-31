@@ -9,9 +9,6 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/api/test', methods=["GET"])
+@main.route('/test', methods=["GET"])
 def test():
-    return jsonify(
-        status='OK',
-        msg='hello'
-    )
+    return jsonify(msg='hello')
