@@ -325,18 +325,15 @@
 <dd><p>[requires auth cookies or headers]</p>
 <p><strong>Example request:</strong></p>
 <blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ехать от станции удобнее всего на верблюдах&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>{</dt><dd><p>“name”: “Гадюкино”,
-“address”: “экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область”,
-“geo”: “55.104086, 36.998032”,
-“maps_link”: “<a class="reference external" href="https://yandex.ru/maps/-/CDQ0mW-Y">https://yandex.ru/maps/-/CDQ0mW-Y</a>”,
-“description”: “ехать от станции удобнее всего на верблюдах”</p>
-</dd>
-</dl>
-<p>}</p>
 </div></blockquote>
 <p><strong>Example response:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -349,7 +346,7 @@
 <span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино&quot;</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Location created.&quot;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -401,30 +398,27 @@
 <dd><p>[requires auth cookies or headers]</p>
 <p><strong>Example request:</strong></p>
 <blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ехать от станции удобнее всего на верблюдах&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>{</dt><dd><p>“name”: “Гадюкино1”,
-“address”: “экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область”,
-“geo”: “55.104086, 36.998032”,
-“maps_link”: “<a class="reference external" href="https://yandex.ru/maps/-/CDQ0mW-Y">https://yandex.ru/maps/-/CDQ0mW-Y</a>”,
-“description”: “ехать от станции удобнее всего на верблюдах”</p>
-</dd>
-</dl>
-<p>}</p>
 </div></blockquote>
 <p><strong>Example response:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ехать от станции удобнее всего на верблюдах&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино1&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Location updated&quot;</span>
+<span class="w">   </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">       </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ехать от станции удобнее всего на верблюдах&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино1&quot;</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Location updated&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>

@@ -204,29 +204,29 @@ Create location
 
     .. sourcecode:: json
 
-    {
-        "name": "Гадюкино",
-        "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
-        "geo": "55.104086, 36.998032",
-        "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
-        "description": "ехать от станции удобнее всего на верблюдах"
-    }
+       {
+           "name": "Гадюкино",
+           "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+           "geo": "55.104086, 36.998032",
+           "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+           "description": "ехать от станции удобнее всего на верблюдах"
+       }
 
    **Example response:**
 
    .. sourcecode:: json
 
-    {
-        "data": {
-            "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
-            "description": "ехать от станции удобнее всего на верблюдах",
-            "geo": "55.104086, 36.998032",
-            "id": 1,
-            "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
-            "name": "Гадюкино"
-        },
-        "msg": "Location created."
-    }
+      {
+          "data": {
+              "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+              "description": "ехать от станции удобнее всего на верблюдах",
+              "geo": "55.104086, 36.998032",
+              "id": 1,
+              "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+              "name": "Гадюкино"
+          },
+          "msg": "Location created."
+        }
 
    :statuscode 200: no error
    :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
@@ -243,14 +243,14 @@ Get location
 
    .. sourcecode:: json
 
-    {
-        "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
-        "description": "ехать от станции удобнее всего на верблюдах",
-        "geo": "55.104086, 36.998032",
-        "id": 3,
-        "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
-        "name": "Гадюкино"
-    }
+      {
+          "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+          "description": "ехать от станции удобнее всего на верблюдах",
+          "geo": "55.104086, 36.998032",
+          "id": 3,
+          "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+          "name": "Гадюкино"
+      }
 
    :statuscode 200: no error
    :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
@@ -267,29 +267,29 @@ Update location
 
     .. sourcecode:: json
 
-    {
-        "name": "Гадюкино1",
-        "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
-        "geo": "55.104086, 36.998032",
-        "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
-        "description": "ехать от станции удобнее всего на верблюдах"
-    }
+       {
+           "name": "Гадюкино1",
+           "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+           "geo": "55.104086, 36.998032",
+           "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+           "description": "ехать от станции удобнее всего на верблюдах"
+       }
 
    **Example response:**
 
    .. sourcecode:: json
 
-    {
-        "data": {
-            "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
-            "description": "ехать от станции удобнее всего на верблюдах",
-            "geo": "55.104086, 36.998032",
-            "id": 3,
-            "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
-            "name": "Гадюкино1"
-        },
-        "msg": "Location updated"
-    }
+      {
+         "data": {
+             "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+             "description": "ехать от станции удобнее всего на верблюдах",
+             "geo": "55.104086, 36.998032",
+             "id": 3,
+             "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+             "name": "Гадюкино1"
+         },
+         "msg": "Location updated"
+      }
 
    :statuscode 200: no error
    :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
@@ -306,9 +306,9 @@ Delete location
 
    .. sourcecode:: json
 
-    {
-        "msg": "Location deleted"
-    }
+      {
+          "msg": "Location deleted"
+      }
 
    :statuscode 200: no error
    :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")

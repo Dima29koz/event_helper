@@ -14,11 +14,3 @@ server.app.event\_management.routes module
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: server.app.event_management
-   :members:
-   :undoc-members:
-   :show-inheritance:
