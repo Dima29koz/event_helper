@@ -27,10 +27,7 @@ def login():
     if not user or not user.check_password(request_data.get('pwd')):
         return jsonify(msg='Wrong username or password'), 401
 
-    access_token = create_access_token(
-        identity=user,
-        expires_delta=current_app.config.get('ACCESS_TOKEN_EXP_DELTA')
-    )
+    access_token = create_access_token(identity=user)
     response = jsonify(
         msg='login successful',
         token=access_token

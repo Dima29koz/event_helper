@@ -27,7 +27,7 @@ class BaseConfig:
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
     JWT_TOKEN_LOCATION = ["headers", "cookies"]
     JWT_COOKIE_SECURE = False  # In production, this should always be set to True
-    ACCESS_TOKEN_EXP_DELTA = datetime.timedelta(minutes=60)
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     MANAGE_SESSION = True

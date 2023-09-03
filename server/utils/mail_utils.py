@@ -13,11 +13,11 @@ def send_email(subject: str, recipients, text_body, html_body):
 
 
 def send_email_confirmation_mail(user: User):
-    if not user.user_email:
+    if not user.email:
         return
     token = user.get_token('confirm_email')
     send_email('[EventHelper] Confirm Your Email',
-               recipients=[user.user_email],
+               recipients=[user.email],
                text_body=render_template('email/confirm_email.txt',
                                          user=user, token=token),
                html_body=render_template('email/confirm_email.html',
