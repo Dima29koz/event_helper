@@ -1,4 +1,4 @@
-from flask import request, jsonify, current_app
+from flask import request, jsonify
 from flask_jwt_extended import (
     create_access_token,
     current_user,
@@ -101,6 +101,39 @@ def reset_password(token):
 
     user.set_pwd(request_data.get('new_pwd'))
     return jsonify(msg='Your password has been reset.')
+
+
+@user_account.route('/locations', methods=["GET"])
+@jwt_required()
+def get_locations():
+    return jsonify([location.to_dict() for location in current_user.locations])
+
+
+@user_account.route('/create_location', methods=["POST"])
+@jwt_required()
+def create_location():
+    request_data = request.get_json()
+    location = models.Location(request_data, current_user)
+    return jsonify(msg='Location created.', data=location.to_dict())
+
+
+@user_account.route('/location/<int:location_id>', methods=["GET", "POST", "DELETE"])
+@jwt_required()
+def modify_location(location_id: int):
+    location = models.get_location_by_id(location_id)
+    if not location or location not in current_user.locations:
+        return jsonify(msg='Not allowed'), 403
+
+    if request.method == 'GET':
+        return jsonify(location.to_dict())
+
+    if request.method == 'POST':
+        location.update(request.get_json())
+        return jsonify(msg='Location updated', data=location.to_dict())
+
+    if request.method == 'DELETE':
+        location.delete()
+        return jsonify(msg='Location deleted')
 
 
 @user_account.route("/logout")

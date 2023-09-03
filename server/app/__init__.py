@@ -48,11 +48,11 @@ def create_app(config: BaseConfig) -> Flask:
 
     from .main import main as main_blueprint
     from .user_account import user_account as user_account_blueprint
-    from .event import event as event_blueprint
+    from .event_management import event_management as event_management_blueprint
 
     app.register_blueprint(main_blueprint)
     app.register_blueprint(user_account_blueprint)
-    app.register_blueprint(event_blueprint)
+    app.register_blueprint(event_management_blueprint)
 
     sio.init_app(app, logger=config.LOGGER, manage_session=config.MANAGE_SESSION)
     CORS(app)

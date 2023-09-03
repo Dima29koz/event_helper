@@ -6,6 +6,7 @@ from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from server.app import db, jwt_manager
+from server.utils.time import date_from_str
 
 
 @jwt_manager.user_identity_loader
@@ -28,8 +29,18 @@ def add(db_object):
         raise
 
 
-person_to_event = db.Table(
-    'person_to_event',
+def delete_obj(db_object):
+    try:
+        db.session.delete(db_object)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        db.session.rollback()
+        raise
+
+
+member_to_event = db.Table(
+    'member_to_event',
     db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
     db.Column('member_id', db.Integer, db.ForeignKey('event_member.id')),
 )
@@ -60,8 +71,8 @@ class User(db.Model):
     :type is_email_verified: bool
     :cvar pwd: hash of users password
     :type pwd: str
-    :cvar date: account creation date
-    :type date: datetime
+    :cvar timestamp: account creation date
+    :type timestamp: datetime
 
     """
 
@@ -82,7 +93,7 @@ class User(db.Model):
     contacts = db.Column(db.String(100))
     is_email_verified = db.Column(db.Boolean, default=False)
     pwd = db.Column(db.String(256), nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return self.username
@@ -201,15 +212,31 @@ class EventMember(db.Model):
     :cvar user_id: User foreign key
     :type user_id: int
 
+    :cvar role: role object
+    :type role: Role
+    :cvar user: user object
+    :type user: User
+
     """
+
+    def __init__(self, member_data: dict):
+        self.nickname = member_data.get('nickname')
+        self.days_amount = member_data.get('days_amount')
+        self.is_drinker = member_data.get('is_drinker')
+
+        add(self)
+
     __tablename__ = 'event_member'
     id = db.Column(db.Integer(), primary_key=True)
     nickname = db.Column(db.String(50), nullable=False)
     days_amount = db.Column(db.Integer(), nullable=False)
     is_drinker = db.Column(db.Boolean, default=False)
-    money_impact = db.Column(db.Float())
+    money_impact = db.Column(db.Float(), default=0)
     role_id = db.Column(db.Integer(), db.ForeignKey('role.id'), nullable=False)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+
+    role = db.relationship("Role", foreign_keys=[role_id])
+    user = db.relationship("User", foreign_keys=[user_id])
 
     def add(self):
         try:
@@ -232,34 +259,140 @@ class Event(db.Model):
     :type title: str
     :cvar description: event description
     :type description: str
-    :cvar location_id: Location foreign key
+    :cvar location_id: EventLocation foreign key
     :type location_id: int
     :cvar date_start: event start date
     :type date_start: datetime
     :cvar date_end: event end date
     :type date_end: datetime
+    :cvar date_tz: timezone of event in format: [±0000]
+    :type date_tz: str
     :cvar cost_reduction_factor: describes percent for cost reduction factor per day
     :type cost_reduction_factor: int
+    :cvar creator_id: User foreign key
+    :type creator_id: int
 
+    :cvar location: event location object
+    :type location: EventLocation
+    :cvar members: event members
+    :type members: list[EventMember]
     """
+
+    def __init__(self, event_data: dict, creator: User):
+        self.title = event_data.get('title')
+        self.description = event_data.get('description')
+        self.date_start = date_from_str(event_data.get('date_start'))
+        self.date_end = date_from_str(event_data.get('date_end'))
+        self.date_tz = event_data.get('timezone')
+        self.cost_reduction_factor = event_data.get('cost_reduction_factor')
+
+        self.creator = creator
+        # todo not secure. check location_id is allowed
+        self.location = EventLocation(get_location_by_id(event_data.get('location_id')))
+
+        add(self)
+
     __tablename__ = 'event'
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     description = db.Column(db.UnicodeText)
-    location_id = db.Column(db.Integer(), db.ForeignKey('location.id'), nullable=False)
+    location_id = db.Column(db.Integer(), db.ForeignKey('event_location.id'), nullable=False)
     date_start = db.Column(db.DateTime, nullable=False)
     date_end = db.Column(db.DateTime, nullable=False)
+    date_tz = db.Column(db.String(5), nullable=False)
     cost_reduction_factor = db.Column(db.Integer, default=25, nullable=False)
+    creator_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
+
+    creator = db.relationship("User", foreign_keys=[creator_id])
+    location = db.relationship("EventLocation", foreign_keys=[location_id])
+    members = db.relationship("EventMember", secondary=member_to_event, backref=db.backref('events', lazy=True))
 
     def __repr__(self):
         return self.title
 
 
 class Location(db.Model):
-    """Event model
+    """Location model
 
     :cvar id: autogenerated location id
     :type id: int
+    :cvar name: location name
+    :type name: str
+    :cvar address: location address
+    :type address: str
+    :cvar geo: location geo
+    :type geo: str
+    :cvar maps_link: location maps link
+    :type maps_link: str
+    :cvar description: location description
+    :type description: str
+    :cvar creator_id: User foreign key
+    :type creator_id: int
+
+    :cvar creator: location creator
+    :type creator: User
+
+    """
+
+    def __init__(self, location_data: dict, creator: User):
+        self.name = location_data.get('name')
+        self.address = location_data.get('address')
+        self.geo = location_data.get('geo')
+        self.maps_link = location_data.get('maps_link')
+        self.description = location_data.get('description')
+        self.creator = creator
+
+        add(self)
+
+    __tablename__ = 'location'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(500), nullable=False)
+    geo = db.Column(db.String(100), nullable=False)
+    maps_link = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.UnicodeText)
+    creator_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
+
+    creator = db.relationship("User", foreign_keys=[creator_id], backref=db.backref('locations', lazy=True))
+
+    def __repr__(self):
+        return self.address
+
+    def to_dict(self):
+        return dict(
+            id=self.id,
+            name=self.name,
+            address=self.address,
+            geo=self.geo,
+            maps_link=self.maps_link,
+            description=self.description,
+        )
+
+    def update(self, location_data: dict):
+        self.name = location_data.get('name')
+        self.address = location_data.get('address')
+        self.geo = location_data.get('geo')
+        self.maps_link = location_data.get('maps_link')
+        self.description = location_data.get('description')
+
+        db.session.commit()
+
+    def delete(self):
+        delete_obj(self)
+
+
+def get_location_by_id(location_id: int) -> Location | None:
+    """returns location by id if exists"""
+    return Location.query.filter_by(id=location_id).first()
+
+
+class EventLocation(db.Model):
+    """Event Location model
+
+    :cvar id: autogenerated location id
+    :type id: int
+    :cvar name: location name
+    :type name: str
     :cvar address: location address
     :type address: str
     :cvar geo: location geo
@@ -270,9 +403,20 @@ class Location(db.Model):
     :type description: str
 
     """
-    __tablename__ = 'location'
+
+    def __init__(self, location: Location):
+        self.name = location.name
+        self.address = location.address
+        self.geo = location.geo
+        self.maps_link = location.maps_link
+        self.description = location.description
+
+        add(self)
+
+    __tablename__ = 'event_location'
     id = db.Column(db.Integer(), primary_key=True)
-    address = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(500), nullable=False)
     geo = db.Column(db.String(100), nullable=False)
     maps_link = db.Column(db.String(100), nullable=False)
     description = db.Column(db.UnicodeText)
