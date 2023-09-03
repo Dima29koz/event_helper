@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="endpoints" href="endpoints.html" />
+    <link rel="next" title="server.app.event_management package" href="server.app.event_management.html" />
     <link rel="prev" title="server.app.models module" href="server.app.models.html" /> 
 </head>
 
@@ -50,8 +50,11 @@
 <li class="toctree-l3"><a class="reference internal" href="server.app.models.html">server.app.models module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">server.app.user_account module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.confirm_email"><code class="docutils literal notranslate"><span class="pre">confirm_email()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.create_location"><code class="docutils literal notranslate"><span class="pre">create_location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.get_locations"><code class="docutils literal notranslate"><span class="pre">get_locations()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.login"><code class="docutils literal notranslate"><span class="pre">login()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.logout"><code class="docutils literal notranslate"><span class="pre">logout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.modify_location"><code class="docutils literal notranslate"><span class="pre">modify_location()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.profile_settings"><code class="docutils literal notranslate"><span class="pre">profile_settings()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.refresh_expiring_jwts"><code class="docutils literal notranslate"><span class="pre">refresh_expiring_jwts()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.registration"><code class="docutils literal notranslate"><span class="pre">registration()</span></code></a></li>
@@ -59,6 +62,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.reset_password_request"><code class="docutils literal notranslate"><span class="pre">reset_password_request()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="server.app.event_management.html">server.app.event_management package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="server.app.html#module-server.app">Module contents</a></li>
 </ul>
 </li>
@@ -102,6 +106,16 @@
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.create_location">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">create_location</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.create_location" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.get_locations">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">get_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.get_locations" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="server.app.user_account.routes.login">
 <span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.login" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -111,6 +125,11 @@
 <span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.logout" title="Permalink to this definition"></a></dt>
 <dd><p>logs out user</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.modify_location">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">modify_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.modify_location" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="server.app.user_account.routes.profile_settings">
@@ -145,7 +164,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="server.app.models.html" class="btn btn-neutral float-left" title="server.app.models module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="endpoints.html" class="btn btn-neutral float-right" title="endpoints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="server.app.event_management.html" class="btn btn-neutral float-right" title="server.app.event_management package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

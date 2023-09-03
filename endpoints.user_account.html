@@ -19,6 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="event_management endpoints" href="endpoints.event_management.html" />
     <link rel="prev" title="endpoints" href="endpoints.html" /> 
 </head>
 
@@ -46,16 +47,26 @@
 <li class="toctree-l1"><a class="reference internal" href="server.html">server package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="endpoints.html">endpoints</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">user_account endpoints</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#notice">Notice</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#login">Login</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#registration">Registration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reset-password-request">Reset password request</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#profile-settings">Profile settings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#confirm-email">Confirm email</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reset-password">Reset password</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#locations">Locations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#all-user-s-locations">All user`s locations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-location">Create location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-location">Get location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#update-location">Update location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#delete-location">Delete location</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#logout">Logout</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints.event_management.html">event_management endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints.html#index">Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints.html#test">Test</a></li>
 </ul>
 </li>
 </ul>
@@ -89,14 +100,6 @@
 <h1>user_account endpoints<a class="headerlink" href="#user-account-endpoints" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<section id="notice">
-<h2>Notice<a class="headerlink" href="#notice" title="Permalink to this heading"></a></h2>
-<p>All endpoints that require authentication accept both token from cookies and headers.</p>
-<p>Using cookies is a preferred way cause they offer some nice benefits compared to the headers approach:
-* tokens from cookies are refreshing if are close to expiring, which simplifies the logic of keeping active users logged in.</p>
-<p>Whenever you are making a request (everything except ‘GET’), you need to manually include the X-CSRF-TOKEN header,
-otherwise your requests will be kicked out as invalid too.</p>
-</section>
 <section id="login">
 <h2>Login<a class="headerlink" href="#login" title="Permalink to this heading"></a></h2>
 <dl class="http post">
@@ -273,6 +276,195 @@ otherwise your requests will be kicked out as invalid too.</p>
 </dd></dl>
 
 </section>
+<section id="locations">
+<h2>Locations<a class="headerlink" href="#locations" title="Permalink to this heading"></a></h2>
+<section id="all-user-s-locations">
+<h3>All user`s locations<a class="headerlink" href="#all-user-s-locations" title="Permalink to this heading"></a></h3>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--user_account-locations">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/user_account/locations</span></span><a class="headerlink" href="#get--user_account-locations" title="Permalink to this definition"></a></dt>
+<dd><p>[requires auth cookies or headers]</p>
+<p><strong>Example response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ехать от станции удобнее всего на верблюдах&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино2&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie “access_token_cookie”)</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a></span> – Token has expired</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="create-location">
+<h3>Create location<a class="headerlink" href="#create-location" title="Permalink to this heading"></a></h3>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--user_account-create_location">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/user_account/create_location</span></span><a class="headerlink" href="#get--user_account-create_location" title="Permalink to this definition"></a></dt>
+<dd><p>[requires auth cookies or headers]</p>
+<p><strong>Example request:</strong></p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>{</dt><dd><p>“name”: “Гадюкино”,
+“address”: “экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область”,
+“geo”: “55.104086, 36.998032”,
+“maps_link”: “<a class="reference external" href="https://yandex.ru/maps/-/CDQ0mW-Y">https://yandex.ru/maps/-/CDQ0mW-Y</a>”,
+“description”: “ехать от станции удобнее всего на верблюдах”</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p><strong>Example response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ехать от станции удобнее всего на верблюдах&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Location created.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie “access_token_cookie”)</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a></span> – Token has expired</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="get-location">
+<h3>Get location<a class="headerlink" href="#get-location" title="Permalink to this heading"></a></h3>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--user_account-location--int-location_id-">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/user_account/location/&lt;int:location_id&gt;</span></span><a class="headerlink" href="#get--user_account-location--int-location_id-" title="Permalink to this definition"></a></dt>
+<dd><p>[requires auth cookies or headers]</p>
+<p><strong>Example response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ехать от станции удобнее всего на верблюдах&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie “access_token_cookie”)</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a></span> – Not allowed</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="update-location">
+<h3>Update location<a class="headerlink" href="#update-location" title="Permalink to this heading"></a></h3>
+<dl class="http post">
+<dt class="sig sig-object http" id="post--user_account-location--int-location_id-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/user_account/location/&lt;int:location_id&gt;</span></span><a class="headerlink" href="#post--user_account-location--int-location_id-" title="Permalink to this definition"></a></dt>
+<dd><p>[requires auth cookies or headers]</p>
+<p><strong>Example request:</strong></p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>{</dt><dd><p>“name”: “Гадюкино1”,
+“address”: “экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область”,
+“geo”: “55.104086, 36.998032”,
+“maps_link”: “<a class="reference external" href="https://yandex.ru/maps/-/CDQ0mW-Y">https://yandex.ru/maps/-/CDQ0mW-Y</a>”,
+“description”: “ехать от станции удобнее всего на верблюдах”</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p><strong>Example response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ехать от станции удобнее всего на верблюдах&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино1&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Location updated&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie “access_token_cookie”)</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a></span> – Not allowed</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="delete-location">
+<h3>Delete location<a class="headerlink" href="#delete-location" title="Permalink to this heading"></a></h3>
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--user_account-location--int-location_id-">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/user_account/location/&lt;int:location_id&gt;</span></span><a class="headerlink" href="#delete--user_account-location--int-location_id-" title="Permalink to this definition"></a></dt>
+<dd><p>[requires auth cookies or headers]</p>
+<p><strong>Example response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Location deleted&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie “access_token_cookie”)</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a></span> – Not allowed</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
 <section id="logout">
 <h2>Logout<a class="headerlink" href="#logout" title="Permalink to this heading"></a></h2>
 <dl class="http get">
@@ -304,6 +496,7 @@ otherwise your requests will be kicked out as invalid too.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="endpoints.html" class="btn btn-neutral float-left" title="endpoints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="endpoints.event_management.html" class="btn btn-neutral float-right" title="event_management endpoints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

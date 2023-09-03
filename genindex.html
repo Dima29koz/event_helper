@@ -80,6 +80,7 @@
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
@@ -106,9 +107,13 @@
 </li>
       <li><a href="server.app.user_account.html#server.app.user_account.routes.confirm_email">confirm_email() (in module server.app.user_account.routes)</a>
 </li>
+      <li><a href="server.app.html#server.app.create_app">create_app() (in module server.app)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="server.app.html#server.app.create_app">create_app() (in module server.app)</a>
+      <li><a href="server.app.event_management.html#server.app.event_management.routes.create_event">create_event() (in module server.app.event_management.routes)</a>
+</li>
+      <li><a href="server.app.user_account.html#server.app.user_account.routes.create_location">create_location() (in module server.app.user_account.routes)</a>
 </li>
       <li><a href="server.app.models.html#server.app.models.models.create_user">create_user() (in module server.app.models.models)</a>
 </li>
@@ -130,8 +135,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="server.app.models.html#server.app.models.models.Event">Event (class in server.app.models.models)</a>
 </li>
+      <li><a href="server.app.models.html#server.app.models.models.EventLocation">EventLocation (class in server.app.models.models)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="server.app.event_management.events.html#server.app.event_management.events.event_management_namespace.EventManagementNamespace">EventManagementNamespace (class in server.app.event_management.events.event_management_namespace)</a>
+</li>
       <li><a href="server.app.models.html#server.app.models.models.EventMember">EventMember (class in server.app.models.models)</a>
 </li>
   </ul></td>
@@ -142,8 +151,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="server.html#server.config.get_config">get_config() (in module server.config)</a>
 </li>
+      <li><a href="server.app.event_management.html#server.app.event_management.routes.get_events">get_events() (in module server.app.event_management.routes)</a>
+</li>
+      <li><a href="server.app.models.html#server.app.models.models.get_location_by_id">get_location_by_id() (in module server.app.models.models)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="server.app.user_account.html#server.app.user_account.routes.get_locations">get_locations() (in module server.app.user_account.routes)</a>
+</li>
       <li><a href="server.app.models.html#server.app.models.models.get_user_by_id">get_user_by_id() (in module server.app.models.models)</a>
 </li>
       <li><a href="server.app.models.html#server.app.models.models.get_user_by_username">get_user_by_username() (in module server.app.models.models)</a>
@@ -176,11 +191,21 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="server.app.user_account.html#server.app.user_account.routes.modify_location">modify_location() (in module server.app.user_account.routes)</a>
+</li>
       <li>
     module
 
       <ul>
         <li><a href="server.app.html#module-server.app">server.app</a>
+</li>
+        <li><a href="server.app.event_management.html#module-server.app.event_management">server.app.event_management</a>
+</li>
+        <li><a href="server.app.event_management.events.html#module-server.app.event_management.events">server.app.event_management.events</a>
+</li>
+        <li><a href="server.app.event_management.events.html#module-server.app.event_management.events.event_management_namespace">server.app.event_management.events.event_management_namespace</a>
+</li>
+        <li><a href="server.app.event_management.html#module-server.app.event_management.routes">server.app.event_management.routes</a>
 </li>
         <li><a href="server.app.main.html#module-server.app.main.routes">server.app.main.routes</a>
 </li>
@@ -191,6 +216,18 @@
         <li><a href="server.html#module-server.config">server.config</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="server.app.event_management.events.html#server.app.event_management.events.event_management_namespace.EventManagementNamespace.on_connect">on_connect() (server.app.event_management.events.event_management_namespace.EventManagementNamespace static method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="server.app.event_management.events.html#server.app.event_management.events.event_management_namespace.EventManagementNamespace.on_join">on_join() (server.app.event_management.events.event_management_namespace.EventManagementNamespace static method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -217,8 +254,12 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="server.app.user_account.html#server.app.user_account.routes.refresh_expiring_jwts">refresh_expiring_jwts() (in module server.app.user_account.routes)</a>
+      <li><a href="server.app.event_management.html#server.app.event_management.routes.refresh_expiring_jwts">refresh_expiring_jwts() (in module server.app.event_management.routes)</a>
+
+      <ul>
+        <li><a href="server.app.user_account.html#server.app.user_account.routes.refresh_expiring_jwts">(in module server.app.user_account.routes)</a>
 </li>
+      </ul></li>
       <li><a href="server.app.user_account.html#server.app.user_account.routes.registration">registration() (in module server.app.user_account.routes)</a>
 </li>
   </ul></td>
@@ -243,6 +284,36 @@
 </li>
       </ul></li>
       <li>
+    server.app.event_management
+
+      <ul>
+        <li><a href="server.app.event_management.html#module-server.app.event_management">module</a>
+</li>
+      </ul></li>
+      <li>
+    server.app.event_management.events
+
+      <ul>
+        <li><a href="server.app.event_management.events.html#module-server.app.event_management.events">module</a>
+</li>
+      </ul></li>
+      <li>
+    server.app.event_management.events.event_management_namespace
+
+      <ul>
+        <li><a href="server.app.event_management.events.html#module-server.app.event_management.events.event_management_namespace">module</a>
+</li>
+      </ul></li>
+      <li>
+    server.app.event_management.routes
+
+      <ul>
+        <li><a href="server.app.event_management.html#module-server.app.event_management.routes">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
     server.app.main.routes
 
       <ul>
@@ -256,8 +327,6 @@
         <li><a href="server.app.models.html#module-server.app.models.models">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     server.app.user_account.routes
 

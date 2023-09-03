@@ -4,17 +4,6 @@ user\_account endpoints
 .. toctree::
    :maxdepth: 2
 
-Notice
-------
-
-All endpoints that require authentication accept both token from cookies and headers.
-
-Using cookies is a preferred way cause they offer some nice benefits compared to the headers approach:
-* tokens from cookies are refreshing if are close to expiring, which simplifies the logic of keeping active users logged in.
-
-Whenever you are making a request (everything except 'GET'), you need to manually include the X-CSRF-TOKEN header,
-otherwise your requests will be kicked out as invalid too.
-
 
 Login
 -----
@@ -166,6 +155,164 @@ Reset password
    :statuscode 200: no error
    :statuscode 400: Wrong token
    :statuscode 403: user is already authenticated
+
+
+Locations
+---------
+All user`s locations
+^^^^^^^^^^^^^^^^^^^^
+.. http:get:: /user_account/locations
+
+   [requires auth cookies or headers]
+
+   **Example response:**
+
+   .. sourcecode:: json
+
+    [
+        {
+            "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+            "description": "ехать от станции удобнее всего на верблюдах",
+            "geo": "55.104086, 36.998032",
+            "id": 1,
+            "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+            "name": "Гадюкино"
+        },
+        {
+            "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+            "description": null,
+            "geo": "55.104086, 36.998032",
+            "id": 2,
+            "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+            "name": "Гадюкино2"
+        }
+    ]
+
+
+   :statuscode 200: no error
+   :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
+   :statuscode 403: Token has expired
+
+
+Create location
+^^^^^^^^^^^^^^^
+.. http:get:: /user_account/create_location
+
+   [requires auth cookies or headers]
+
+   **Example request:**
+
+    .. sourcecode:: json
+
+    {
+        "name": "Гадюкино",
+        "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+        "geo": "55.104086, 36.998032",
+        "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+        "description": "ехать от станции удобнее всего на верблюдах"
+    }
+
+   **Example response:**
+
+   .. sourcecode:: json
+
+    {
+        "data": {
+            "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+            "description": "ехать от станции удобнее всего на верблюдах",
+            "geo": "55.104086, 36.998032",
+            "id": 1,
+            "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+            "name": "Гадюкино"
+        },
+        "msg": "Location created."
+    }
+
+   :statuscode 200: no error
+   :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
+   :statuscode 403: Token has expired
+
+
+Get location
+^^^^^^^^^^^^
+.. http:get:: /user_account/location/<int:location_id>
+
+   [requires auth cookies or headers]
+
+   **Example response:**
+
+   .. sourcecode:: json
+
+    {
+        "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+        "description": "ехать от станции удобнее всего на верблюдах",
+        "geo": "55.104086, 36.998032",
+        "id": 3,
+        "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+        "name": "Гадюкино"
+    }
+
+   :statuscode 200: no error
+   :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
+   :statuscode 403: Not allowed
+
+
+Update location
+^^^^^^^^^^^^^^^
+.. http:post:: /user_account/location/<int:location_id>
+
+   [requires auth cookies or headers]
+
+   **Example request:**
+
+    .. sourcecode:: json
+
+    {
+        "name": "Гадюкино1",
+        "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+        "geo": "55.104086, 36.998032",
+        "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+        "description": "ехать от станции удобнее всего на верблюдах"
+    }
+
+   **Example response:**
+
+   .. sourcecode:: json
+
+    {
+        "data": {
+            "address": "экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область",
+            "description": "ехать от станции удобнее всего на верблюдах",
+            "geo": "55.104086, 36.998032",
+            "id": 3,
+            "maps_link": "https://yandex.ru/maps/-/CDQ0mW-Y",
+            "name": "Гадюкино1"
+        },
+        "msg": "Location updated"
+    }
+
+   :statuscode 200: no error
+   :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
+   :statuscode 403: Not allowed
+
+
+Delete location
+^^^^^^^^^^^^^^^
+.. http:delete:: /user_account/location/<int:location_id>
+
+   [requires auth cookies or headers]
+
+   **Example response:**
+
+   .. sourcecode:: json
+
+    {
+        "msg": "Location deleted"
+    }
+
+   :statuscode 200: no error
+   :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
+   :statuscode 403: Not allowed
 
 
 Logout

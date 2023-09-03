@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="user_account endpoints" href="endpoints.user_account.html" />
-    <link rel="prev" title="server.app.user_account module" href="server.app.user_account.html" /> 
+    <link rel="prev" title="server.app.event_management.events package" href="server.app.event_management.events.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,6 +47,9 @@
 <li class="toctree-l1"><a class="reference internal" href="server.html">server package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">endpoints</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html">user_account endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints.event_management.html">event_management endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index">Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test">Test</a></li>
 </ul>
 </li>
 </ul>
@@ -80,23 +83,40 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="endpoints.user_account.html">user_account endpoints</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#notice">Notice</a></li>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#login">Login</a></li>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#registration">Registration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#reset-password-request">Reset password request</a></li>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#profile-settings">Profile settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#confirm-email">Confirm email</a></li>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#reset-password">Reset password</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#locations">Locations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html#logout">Logout</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints.event_management.html">event_management endpoints</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="endpoints.event_management.html#create-event">Create event</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<p><strong>Notice</strong></p>
+<p>All endpoints that require authentication accept both token from cookies and headers.</p>
+<p>Using cookies is a preferred way cause they offer some nice benefits compared to the headers approach:</p>
+<ul class="simple">
+<li><p>tokens from cookies are refreshing if are close to expiring, which simplifies the logic of keeping active users logged in.</p></li>
+</ul>
+<p>Whenever you are making a request (everything except ‘GET’), you need to manually include the X-CSRF-TOKEN header,
+otherwise your requests will be kicked out as invalid too.</p>
+<section id="index">
+<h2>Index<a class="headerlink" href="#index" title="Permalink to this heading"></a></h2>
 <dl class="http get">
 <dt class="sig sig-object http" id="get--">
 <span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/</span></span><a class="headerlink" href="#get--" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+</section>
+<section id="test">
+<h2>Test<a class="headerlink" href="#test" title="Permalink to this heading"></a></h2>
 <dl class="http get">
 <dt class="sig sig-object http" id="get--test">
 <span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/test</span></span><a class="headerlink" href="#get--test" title="Permalink to this definition"></a></dt>
@@ -116,12 +136,13 @@
 </dd></dl>
 
 </section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="server.app.user_account.html" class="btn btn-neutral float-left" title="server.app.user_account module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="server.app.event_management.events.html" class="btn btn-neutral float-left" title="server.app.event_management.events package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="endpoints.user_account.html" class="btn btn-neutral float-right" title="user_account endpoints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -49,6 +49,7 @@
 <li class="toctree-l3"><a class="reference internal" href="server.app.main.html">server.app.main module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="server.app.models.html">server.app.models module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="server.app.user_account.html">server.app.user_account module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server.app.event_management.html">server.app.event_management package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-server.app">Module contents</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.CustomSessionInterface"><code class="docutils literal notranslate"><span class="pre">CustomSessionInterface</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.create_app"><code class="docutils literal notranslate"><span class="pre">create_app()</span></code></a></li>
@@ -99,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="server.app.models.html">server.app.models module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.BaseProduct"><code class="docutils literal notranslate"><span class="pre">BaseProduct</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.EventLocation"><code class="docutils literal notranslate"><span class="pre">EventLocation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.EventMember"><code class="docutils literal notranslate"><span class="pre">EventMember</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.Location"><code class="docutils literal notranslate"><span class="pre">Location</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.Product"><code class="docutils literal notranslate"><span class="pre">Product</span></code></a></li>
@@ -109,19 +111,29 @@
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.Role"><code class="docutils literal notranslate"><span class="pre">Role</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.create_user"><code class="docutils literal notranslate"><span class="pre">create_user()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.get_location_by_id"><code class="docutils literal notranslate"><span class="pre">get_location_by_id()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.get_user_by_id"><code class="docutils literal notranslate"><span class="pre">get_user_by_id()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.get_user_by_username"><code class="docutils literal notranslate"><span class="pre">get_user_by_username()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="server.app.user_account.html">server.app.user_account module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.confirm_email"><code class="docutils literal notranslate"><span class="pre">confirm_email()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.create_location"><code class="docutils literal notranslate"><span class="pre">create_location()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.get_locations"><code class="docutils literal notranslate"><span class="pre">get_locations()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.login"><code class="docutils literal notranslate"><span class="pre">login()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.logout"><code class="docutils literal notranslate"><span class="pre">logout()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.modify_location"><code class="docutils literal notranslate"><span class="pre">modify_location()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.profile_settings"><code class="docutils literal notranslate"><span class="pre">profile_settings()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.refresh_expiring_jwts"><code class="docutils literal notranslate"><span class="pre">refresh_expiring_jwts()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.registration"><code class="docutils literal notranslate"><span class="pre">registration()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.reset_password"><code class="docutils literal notranslate"><span class="pre">reset_password()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.reset_password_request"><code class="docutils literal notranslate"><span class="pre">reset_password_request()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="server.app.event_management.html">server.app.event_management package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="server.app.event_management.events.html">server.app.event_management.events package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.event_management.html#module-server.app.event_management.routes">server.app.event_management.routes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.event_management.html#module-server.app.event_management">Module contents</a></li>
 </ul>
 </li>
 </ul>
