@@ -28,12 +28,14 @@ class BaseConfig:
     JWT_TOKEN_LOCATION = ["headers", "cookies"]
     JWT_COOKIE_SECURE = False  # In production, this should always be set to True
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
+    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=30)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     MANAGE_SESSION = True
     TEMPLATE_FOLDER = '../../client/templates'
     STATIC_FOLDER = '../../client/static'
     MAIL_DEBUG = False
+    SEND_MAIL = True
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
@@ -48,6 +50,7 @@ class DevelopmentConfig(BaseConfig):
     """
     DEBUG = True
     LOGGER = True
+    SEND_MAIL = False
     SQLALCHEMY_DATABASE_URI = (
         f"mysql://"
         f"{os.environ.get('DEV_DB_USERNAME')}:"

@@ -1,10 +1,13 @@
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 from flask_jwt_extended import (
     create_access_token,
     current_user,
     jwt_required,
     unset_jwt_cookies,
-    get_jwt_identity, set_access_cookies
+    get_jwt_identity,
+    set_access_cookies,
+    set_refresh_cookies,
+    create_refresh_token
 )
 
 from . import user_account
@@ -28,10 +31,18 @@ def login():
         return jsonify(msg='Wrong username or password'), 401
 
     access_token = create_access_token(identity=user)
-    response = jsonify(
-        msg='login successful',
-        token=access_token
-    )
+    refresh_token = create_refresh_token(identity=user)
+    response = jsonify(msg='login successful')
+    set_access_cookies(response, access_token)
+    set_refresh_cookies(response, refresh_token)
+    return response
+
+
+@user_account.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    response = jsonify(msg='access token refreshed')
+    access_token = create_access_token(identity=current_user)
     set_access_cookies(response, access_token)
     return response
 
@@ -43,8 +54,13 @@ def registration():
     if not user:
         return jsonify(msg='username is not allowed'), 400
 
-    send_email_confirmation_mail(user)
-    return jsonify(msg='Проверьте вашу почту и следуйте инструкциям для её подтверждения')
+    if current_app.config['SEND_MAIL']:
+        send_email_confirmation_mail(user)
+        return jsonify(msg='Проверьте вашу почту и следуйте инструкциям для её подтверждения')
+    return jsonify(
+        msg='Отправка сообщений отключена',
+        confirm_email_token=user.get_token('confirm_email'),
+    )
 
 
 @user_account.route('/reset_password_request', methods=['POST'])
@@ -58,8 +74,13 @@ def reset_password_request():
     if not user:
         return jsonify(msg='user not found'), 400
 
-    send_password_reset_email(user)
-    return jsonify(msg='Проверьте вашу почту и следуйте инструкциям для сброса пароля')
+    if current_app.config['SEND_MAIL']:
+        send_password_reset_email(user)
+        return jsonify(msg='Проверьте вашу почту и следуйте инструкциям для сброса пароля')
+    return jsonify(
+        msg='Отправка сообщений отключена',
+        reset_password_token=user.get_token('reset_password'),
+    )
 
 
 @user_account.route('/profile_settings')
@@ -78,7 +99,7 @@ def profile_settings():
 
 
 @user_account.route('/confirm_email/<string:token>')
-def confirm_email(token):
+def confirm_email(token: str):
     user = models.User.verify_token(token, 'confirm_email')
     if not user:
         return jsonify(msg='Wrong token'), 400
@@ -89,7 +110,7 @@ def confirm_email(token):
 
 @user_account.route('/reset_password/<string:token>', methods=['POST'])
 @jwt_required(optional=True)
-def reset_password(token):
+def reset_password(token: str):
     current_identity = get_jwt_identity()
     if current_identity:
         return jsonify(msg='user is already authenticated'), 403
@@ -106,7 +127,7 @@ def reset_password(token):
 @user_account.route('/locations', methods=["GET"])
 @jwt_required()
 def get_locations():
-    return jsonify([location.to_dict() for location in current_user.locations])
+    return jsonify([location.as_dict() for location in current_user.locations])
 
 
 @user_account.route('/create_location', methods=["POST"])
@@ -114,22 +135,22 @@ def get_locations():
 def create_location():
     request_data = request.get_json()
     location = models.Location(request_data, current_user)
-    return jsonify(msg='Location created.', data=location.to_dict())
+    return jsonify(msg='Location created.', data=location.as_dict())
 
 
 @user_account.route('/location/<int:location_id>', methods=["GET", "POST", "DELETE"])
 @jwt_required()
 def modify_location(location_id: int):
-    location = models.get_location_by_id(location_id)
-    if not location or location not in current_user.locations:
+    location = models.validate_location_id(location_id, current_user)
+    if not location:
         return jsonify(msg='Not allowed'), 403
 
     if request.method == 'GET':
-        return jsonify(location.to_dict())
+        return jsonify(location.as_dict())
 
     if request.method == 'POST':
         location.update(request.get_json())
-        return jsonify(msg='Location updated', data=location.to_dict())
+        return jsonify(msg='Location updated', data=location.as_dict())
 
     if request.method == 'DELETE':
         location.delete()
