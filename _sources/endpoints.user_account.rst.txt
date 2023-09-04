@@ -25,12 +25,30 @@ Login
    .. sourcecode:: json
 
       {
-          "msg": "login successful",
-          "token": "user_token"
+          "msg": "login successful"
       }
 
    :statuscode 200: no error
    :statuscode 401: Wrong username or password
+
+
+Refresh token
+-------------
+.. http:post:: /user_account/refresh
+
+   [requires auth cookies or headers]
+
+   **Example response:**
+
+   .. sourcecode:: json
+
+      {
+         "msg": "access token refreshed"
+      }
+
+   :statuscode 200: no error
+   :statuscode 401: Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie "access_token_cookie")
+   :statuscode 403: Token has expired
 
 
 Registration

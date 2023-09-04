@@ -48,6 +48,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="endpoints.html">endpoints</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">user_account endpoints</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#login">Login</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#refresh-token">Refresh token</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#registration">Registration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reset-password-request">Reset password request</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#profile-settings">Profile settings</a></li>
@@ -115,8 +116,7 @@
 </div>
 <p><strong>Example response:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;login successful&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_token&quot;</span>
+<span class="w">    </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;login successful&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -125,6 +125,30 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Wrong username or password</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="refresh-token">
+<h2>Refresh token<a class="headerlink" href="#refresh-token" title="Permalink to this heading"></a></h2>
+<dl class="http post">
+<dt class="sig sig-object http" id="post--user_account-refresh">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/user_account/refresh</span></span><a class="headerlink" href="#post--user_account-refresh" title="Permalink to this definition"></a></dt>
+<dd><p>[requires auth cookies or headers]</p>
+<p><strong>Example response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;access token refreshed&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie “access_token_cookie”)</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a></span> – Token has expired</p></li>
 </ul>
 </dd>
 </dl>

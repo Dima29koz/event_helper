@@ -56,6 +56,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.logout"><code class="docutils literal notranslate"><span class="pre">logout()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.modify_location"><code class="docutils literal notranslate"><span class="pre">modify_location()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.profile_settings"><code class="docutils literal notranslate"><span class="pre">profile_settings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.refresh"><code class="docutils literal notranslate"><span class="pre">refresh()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.refresh_expiring_jwts"><code class="docutils literal notranslate"><span class="pre">refresh_expiring_jwts()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.registration"><code class="docutils literal notranslate"><span class="pre">registration()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.user_account.routes.reset_password"><code class="docutils literal notranslate"><span class="pre">reset_password()</span></code></a></li>
@@ -102,7 +103,7 @@
 <span id="server-app-user-account-module"></span><h1>server.app.user_account module<a class="headerlink" href="#module-server.app.user_account.routes" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="server.app.user_account.routes.confirm_email">
-<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">confirm_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.confirm_email" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">confirm_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.confirm_email" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -138,6 +139,11 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="server.app.user_account.routes.refresh">
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.refresh" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="server.app.user_account.routes.refresh_expiring_jwts">
 <span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">refresh_expiring_jwts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.refresh_expiring_jwts" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -149,7 +155,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="server.app.user_account.routes.reset_password">
-<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">reset_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.reset_password" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">server.app.user_account.routes.</span></span><span class="sig-name descname"><span class="pre">reset_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.user_account.routes.reset_password" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
