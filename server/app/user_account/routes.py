@@ -11,7 +11,6 @@ from flask_jwt_extended import (
 )
 
 from . import user_account
-from server.app.models.models import get_user_by_username
 from ..models import models
 from ...utils.hider import get_hidden_email, get_hidden_pwd
 from ...utils.mail_utils import send_password_reset_email, send_email_confirmation_mail
@@ -26,7 +25,7 @@ def refresh_expiring_jwts(response):
 @user_account.route('/login', methods=["POST"])
 def login():
     request_data = request.get_json()
-    user = get_user_by_username(request_data.get('username'))
+    user = models.User.get_by_username(request_data.get('username'))
     if not user or not user.check_password(request_data.get('pwd')):
         return jsonify(msg='Wrong username or password'), 401
 
@@ -70,7 +69,7 @@ def reset_password_request():
     current_identity = get_jwt_identity()
     if current_identity:
         return jsonify(msg='user is already authenticated'), 403
-    user = models.get_user_by_username(request_data.get('username'))
+    user = models.User.get_by_username(request_data.get('username'))
     if not user:
         return jsonify(msg='user not found'), 400
 
