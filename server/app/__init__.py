@@ -5,7 +5,6 @@ from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
-from flask.sessions import SecureCookieSessionInterface
 
 from server.config import BaseConfig
 
@@ -14,13 +13,7 @@ jwt_manager = JWTManager()
 sio = SocketIO()
 migrate = Migrate()
 mail = Mail()
-
-
-class CustomSessionInterface(SecureCookieSessionInterface):
-    """Prevent creating session from API requests."""
-
-    def should_set_cookie(self, *args, **kwargs):
-        return False
+cors = CORS()
 
 
 def create_app(config: BaseConfig) -> Flask:
@@ -36,7 +29,6 @@ def create_app(config: BaseConfig) -> Flask:
         static_folder=config.STATIC_FOLDER,
     )
     app.config.from_object(config)
-    app.session_interface = CustomSessionInterface()
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -55,5 +47,5 @@ def create_app(config: BaseConfig) -> Flask:
     app.register_blueprint(event_management_blueprint)
 
     sio.init_app(app, logger=config.LOGGER, manage_session=config.MANAGE_SESSION)
-    CORS(app)
+    cors.init_app(app)
     return app

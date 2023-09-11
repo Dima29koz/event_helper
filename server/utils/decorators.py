@@ -24,21 +24,25 @@ def roles_required(roles: set[Role] = None):
     return wrapper
 
 
-def keys_required(user_token=False):
+def keys_required(user_token=False, optional=False):
     def wrapper(fn):
         @wraps(fn)
         def decorated_event(*args, **kwargs):
             event_key = request.headers.get('Event-Key') or kwargs.get('event_key')
             event = models.Event.get_by_key(event_key)
             if not event:
-                raise ConnectionRefusedError()
+                raise ConnectionRefusedError('Bad event key')
             if user_token:
                 token = args[0].get('auth', dict()).get('access_token')
                 csrf_token = args[0].get('auth', dict()).get('csrf_access_token')
-
-                token_data = decode_token(token, csrf_token)
-
-                user = models.User.get_by_id(token_data.get("sub"))
+                if token and csrf_token:
+                    token_data = decode_token(token, csrf_token)
+                    user = models.User.get_by_id(token_data.get("sub"))
+                else:
+                    if optional:
+                        user = None
+                    else:
+                        raise Exception('Missing user auth token')
                 return fn(*args, event=event, current_user=user, **kwargs)
             return fn(*args, event=event, **kwargs)
 
@@ -48,6 +52,7 @@ def keys_required(user_token=False):
 
 
 def socket_roles_required(roles: set[Role] = None):
+    """by default requires User to be creator"""
     def wrapper(fn):
         @wraps(fn)
         def decorated_event(*args, **kwargs):
@@ -62,5 +67,7 @@ def socket_roles_required(roles: set[Role] = None):
     return wrapper
 
 
-def _has_role(roles: set[Role], user: models.User, event: models.Event):
+def _has_role(roles: set[Role] | None, user: models.User, event: models.Event):
+    if not roles:
+        return False
     return any(filter(lambda member: member.role in roles and member.user == user, event.members))

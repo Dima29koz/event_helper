@@ -1,6 +1,20 @@
-from flask import render_template, jsonify
+from flask import render_template, jsonify, request, Response
 
 from . import main
+from ...utils.route_handlers import handle_refresh_expiring_jwts
+
+
+@main.after_app_request
+def refresh_expiring_jwts(response):
+    return handle_refresh_expiring_jwts(response)
+
+
+@main.before_app_request
+def handle_preflight():
+    if request.method == "OPTIONS":
+        res = Response()
+        res.headers['X-Content-Type-Options'] = '*'
+        return res
 
 
 @main.route('/')

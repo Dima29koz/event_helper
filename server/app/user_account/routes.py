@@ -14,12 +14,6 @@ from . import user_account
 from ..models import models
 from ...utils.hider import get_hidden_email, get_hidden_pwd
 from ...utils.mail_utils import send_password_reset_email, send_email_confirmation_mail
-from ...utils.route_handlers import handle_refresh_expiring_jwts
-
-
-@user_account.after_request
-def refresh_expiring_jwts(response):
-    return handle_refresh_expiring_jwts(response)
 
 
 @user_account.route('/login', methods=["POST"])
