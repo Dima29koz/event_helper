@@ -123,6 +123,9 @@ class User(db.Model):
             algorithm='HS256'
         )
 
+    def get_events_where_member(self):
+        return [(member.event, {'role': member.role}) for member in self.members]
+
     @classmethod
     def verify_token(cls, token: str, token_type: str):
         try:
@@ -204,7 +207,7 @@ class EventMember(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     event_id = db.Column(db.Integer(), db.ForeignKey('event.id'))
 
-    user = db.relationship("User", foreign_keys=[user_id])
+    user = db.relationship("User", foreign_keys=[user_id], backref=db.backref('members', lazy=True))
 
     def __repr__(self):
         return self.nickname
@@ -290,7 +293,7 @@ class Event(db.Model):
 
     creator = db.relationship("User", foreign_keys=[creator_id], backref=db.backref('events', lazy=True))
     location = db.relationship("EventLocation", foreign_keys=[location_id])
-    members = db.relationship("EventMember", backref=db.backref('events', lazy=True))
+    members = db.relationship("EventMember", backref=db.backref('event', lazy=True))
 
     def __repr__(self):
         return self.title

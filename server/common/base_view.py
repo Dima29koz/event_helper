@@ -10,38 +10,67 @@ class BaseView:
     :param model: db model
     :param current_user: used for setting permissions
 
+    :var column_list:
+        Collection of the model field names for the list view.
+        If set to `None`, will get them from the model.
+    :var column_exclude_list:
+        Collection of excluded list column names.
+    :var column_details_list:
+        Collection of the field names included in the details view.
+        If set to `None`, will get them from the model.
+    :var column_details_exclude_list:
+        Collection of fields excluded from the details view.
     """
     column_display_all_relations = False
     column_display_pk = True
     column_list: tuple[str] = None
     column_exclude_list: tuple[str] = None
+    column_details_list: tuple[str] = None
+    column_details_exclude_list: tuple[str] = None
     column_formatters = dict()
-    column_type_formatters = dict(typefmt.BASE_FORMATTERS)
+    column_type_formatters: dict = dict(typefmt.BASE_FORMATTERS)
 
     def __init__(self, model, current_user: models.User = None):
         self.model = model
+        self.current_user = current_user
 
     def get_one(self, obj):
-        columns = self.get_list_columns()
+        columns = self.get_details_columns()
         return {c: self.get_list_value(obj, c) for c in columns}
 
     def get_list(self, objects):
         columns = self.get_list_columns()
         return [{c: self.get_list_value(obj, c) for c in columns} for obj in objects]
 
-    @staticmethod
-    def _get_list_value(model, name, column_formatters,
-                        column_type_formatters):
+    def get_list_with_data(self, objects):
+        columns = self.get_list_columns()
+        return [
+            {c: self.get_list_value(obj, c) for c in columns} |
+            {key: self._get_formatted_value(value) for key, value in data.items()}
+            for obj, data in objects
+        ]
+
+    def _get_list_value(self, model, name, column_formatters, column_type_formatters):
         value = rec_getattr(model, name)
 
         column_fmt = column_formatters.get(name)
         if column_fmt:
             value = column_fmt(value)
 
-        type_fmt = column_type_formatters.get(type(value))
+        value = self._get_formatted_value(value, column_type_formatters)
+
+        return value
+
+    def _get_formatted_value(self, value, column_type_formatters=None):
+        if not column_type_formatters:
+            column_type_formatters = self.column_type_formatters
+        type_fmt = None
+        for typeobj, formatter in column_type_formatters.items():
+            if isinstance(value, typeobj):
+                type_fmt = formatter
+                break
         if type_fmt:
             value = type_fmt(value)
-
         return value
 
     def get_list_value(self, model, name):
@@ -60,7 +89,7 @@ class BaseView:
             self.column_type_formatters,
         )
 
-    def scaffold_list_columns(self):
+    def _scaffold_list_columns(self):
         """
             Return a list of columns from the model.
         """
@@ -96,18 +125,30 @@ class BaseView:
 
     def get_list_columns(self):
         """
-            Uses `get_column_names` to get a list of tuples with the model
-            field name and formatted name for the columns in `column_list`
+            Uses `get_column_names` to get a list of the model
+            field name for the columns in `column_list`
             and not in `column_exclude_list`. If `column_list` is not set,
             the columns from `scaffold_list_columns` will be used.
         """
-        return self.get_column_names(
-            only_columns=self.column_list or self.scaffold_list_columns(),
+        return self._get_column_names(
+            only_columns=self.column_list or self._scaffold_list_columns(),
             excluded_columns=self.column_exclude_list,
         )
 
+    def get_details_columns(self):
+        """
+            Uses `get_column_names` to get a list of the model
+            field name for the columns in `column_details_list`
+            and not in `column_details_exclude_list`. If `column_details_list`
+            is not set, the columns from `scaffold_list_columns` will be used.
+        """
+        return self._get_column_names(
+            only_columns=self.column_details_list or self._scaffold_list_columns(),
+            excluded_columns=self.column_details_exclude_list,
+        )
+
     @staticmethod
-    def get_column_names(only_columns, excluded_columns):
+    def _get_column_names(only_columns, excluded_columns):
         """
             Returns a list of the model field name.
 

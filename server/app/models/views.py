@@ -15,16 +15,21 @@ class UserView(BaseView):
 
 
 class LocationView(BaseView):
-    column_exclude_list = ('creator', )
+    column_list = ('id', 'name')
+    column_details_exclude_list = ('creator', )
+    column_formatters = dict(
+        creator=str,
+    )
 
     def __init__(self, current_user):
         super().__init__(models.Location, current_user)
 
 
 class EventView(BaseView):
-    column_exclude_list = ('creator',)
+    column_list = ('key', 'title', 'date_start', 'date_end', 'date_tz')
     column_formatters = dict(
         location=str,
+        creator=str,
     )
 
     def __init__(self, current_user):
@@ -32,5 +37,11 @@ class EventView(BaseView):
 
 
 class EventMemberView(BaseView):
+    column_exclude_list = ('event', )
+    column_formatters = dict(
+        user=str,
+        event=str,
+    )
+
     def __init__(self, current_user):
         super().__init__(models.EventMember, current_user)

@@ -19,8 +19,8 @@ def create_event():
 @event_management.route('/events', methods=["GET"])
 @jwt_required()
 def get_events():
-    # todo events where cur_user is creator and all events where cur_user is member
+    event_view = EventView(current_user)
     return jsonify(
-        creator_on=EventView(current_user).get_list(current_user.events),
-        member_on=[]
+        creator_on=event_view.get_list(current_user.events),
+        member_on=event_view.get_list_with_data(current_user.get_events_where_member())
     )
