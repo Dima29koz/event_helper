@@ -19,6 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="event_management events" href="events.event_management.html" />
     <link rel="prev" title="user_account endpoints" href="endpoints.user_account.html" /> 
 </head>
 
@@ -47,7 +48,9 @@
 <li class="toctree-l1 current"><a class="reference internal" href="endpoints.html">endpoints</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="endpoints.user_account.html">user_account endpoints</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">event_management endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="events.event_management.html">event_management events</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-event">Create event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#all-user-s-events">All user`s events</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="endpoints.html#index">Index</a></li>
@@ -84,13 +87,94 @@
   <section id="event-management-endpoints">
 <h1>event_management endpoints<a class="headerlink" href="#event-management-endpoints" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="events.event_management.html">event_management events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#connect">connect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#disconnect">disconnect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#get-event-data">get_event_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#update-event-data">update_event_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#delete-event">delete_event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#get-members">get_members</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#add-member">add_member</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#join-event">join_event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#update-member">update_member</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.event_management.html#delete-member">delete_member</a></li>
+</ul>
+</li>
+</ul>
 </div>
 <section id="create-event">
 <h2>Create event<a class="headerlink" href="#create-event" title="Permalink to this heading"></a></h2>
 <dl class="http post">
 <dt class="sig sig-object http" id="post--event_management-create_event">
 <span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/event_management/create_event</span></span><a class="headerlink" href="#post--event_management-create_event" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>[requires auth cookies or headers]</p>
+<p><strong>Example request:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;event1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;description🍰&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;date_start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-02T07:20:34.984Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;date_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-04T07:20:34.984Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;+0300&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cost_reduction_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;location_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Example response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;event_key&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Event created.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie “access_token_cookie”)</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a></span> – Token has expired / Not allowed</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="all-user-s-events">
+<h2>All user`s events<a class="headerlink" href="#all-user-s-events" title="Permalink to this heading"></a></h2>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--event_management-events">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/event_management/events</span></span><a class="headerlink" href="#get--event_management-events" title="Permalink to this definition"></a></dt>
+<dd><p>[requires auth cookies or headers]</p>
+<p><strong>Example response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;creator_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;cost_reduction_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;date_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-04T07:20:35&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;date_start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-02T07:20:35&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;date_tz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;+0300&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;description🍰&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;047e960963834069991c304fda7a1073&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;event1&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;member_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a></span> – Missing JWT in headers or cookies (Missing Authorization Header; Missing cookie “access_token_cookie”)</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a></span> – Token has expired</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 </section>
@@ -100,6 +184,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="endpoints.user_account.html" class="btn btn-neutral float-left" title="user_account endpoints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="events.event_management.html" class="btn btn-neutral float-right" title="event_management events" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

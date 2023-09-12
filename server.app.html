@@ -51,7 +51,6 @@
 <li class="toctree-l3"><a class="reference internal" href="server.app.user_account.html">server.app.user_account module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="server.app.event_management.html">server.app.event_management package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-server.app">Module contents</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#server.app.CustomSessionInterface"><code class="docutils literal notranslate"><span class="pre">CustomSessionInterface</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server.app.create_app"><code class="docutils literal notranslate"><span class="pre">create_app()</span></code></a></li>
 </ul>
 </li>
@@ -93,7 +92,9 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server.app.main.html">server.app.main module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="server.app.main.html#server.app.main.routes.handle_preflight"><code class="docutils literal notranslate"><span class="pre">handle_preflight()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.main.html#server.app.main.routes.index"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.app.main.html#server.app.main.routes.refresh_expiring_jwts"><code class="docutils literal notranslate"><span class="pre">refresh_expiring_jwts()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.main.html#server.app.main.routes.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
 </ul>
 </li>
@@ -108,10 +109,6 @@
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.ProductType"><code class="docutils literal notranslate"><span class="pre">ProductType</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.ProductUnit"><code class="docutils literal notranslate"><span class="pre">ProductUnit</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.create_user"><code class="docutils literal notranslate"><span class="pre">create_user()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.get_location_by_id"><code class="docutils literal notranslate"><span class="pre">get_location_by_id()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.get_user_by_id"><code class="docutils literal notranslate"><span class="pre">get_user_by_id()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="server.app.models.html#server.app.models.models.get_user_by_username"><code class="docutils literal notranslate"><span class="pre">get_user_by_username()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="server.app.user_account.html">server.app.user_account module</a><ul>
@@ -123,7 +120,6 @@
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.modify_location"><code class="docutils literal notranslate"><span class="pre">modify_location()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.profile_settings"><code class="docutils literal notranslate"><span class="pre">profile_settings()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.refresh"><code class="docutils literal notranslate"><span class="pre">refresh()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.refresh_expiring_jwts"><code class="docutils literal notranslate"><span class="pre">refresh_expiring_jwts()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.registration"><code class="docutils literal notranslate"><span class="pre">registration()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.reset_password"><code class="docutils literal notranslate"><span class="pre">reset_password()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.app.user_account.html#server.app.user_account.routes.reset_password_request"><code class="docutils literal notranslate"><span class="pre">reset_password_request()</span></code></a></li>
@@ -138,27 +134,6 @@
 </div>
 <section id="module-server.app">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-server.app" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="server.app.CustomSessionInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.</span></span><span class="sig-name descname"><span class="pre">CustomSessionInterface</span></span><a class="headerlink" href="#server.app.CustomSessionInterface" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SecureCookieSessionInterface</span></code></p>
-<p>Prevent creating session from API requests.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="server.app.CustomSessionInterface.should_set_cookie">
-<span class="sig-name descname"><span class="pre">should_set_cookie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.CustomSessionInterface.should_set_cookie" title="Permalink to this definition"></a></dt>
-<dd><p>Used by session backends to determine if a <code class="docutils literal notranslate"><span class="pre">Set-Cookie</span></code> header
-should be set for this session cookie for this response. If the session
-has been modified, the cookie is set. If the session is permanent and
-the <code class="docutils literal notranslate"><span class="pre">SESSION_REFRESH_EACH_REQUEST</span></code> config is true, the cookie is
-always set.</p>
-<p>This check is usually skipped if the session was deleted.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.11.</span></p>
-</div>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="server.app.create_app">
 <span class="sig-prename descclassname"><span class="pre">server.app.</span></span><span class="sig-name descname"><span class="pre">create_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="server.html#server.config.BaseConfig" title="server.config.BaseConfig"><span class="pre">BaseConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Flask</span></span></span><a class="headerlink" href="#server.app.create_app" title="Permalink to this definition"></a></dt>

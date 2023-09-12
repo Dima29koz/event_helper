@@ -123,7 +123,6 @@ Profile settings
          "full_name": "Admin A.A.",
          "is_email_verified": false,
          "phone": null,
-         "pwd": "********",
          "username": "Admin"
       }
 
