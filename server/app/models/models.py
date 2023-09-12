@@ -99,12 +99,6 @@ class User(db.Model):
         """
         return check_password_hash(self.pwd, password)
 
-    def create(self):
-        if not User.get_by_username(self.username):
-            add(self)
-            return self
-        return
-
     def set_email(self, new_email: str):
         self.email = new_email
         self.is_email_verified = False
@@ -137,15 +131,6 @@ class User(db.Model):
             return
         return cls.get_by_id(user_id)
 
-    def as_dict(self):
-        return dict(
-            id=self.id,
-            username=self.username,
-            full_name=self.full_name,
-            email=self.email,
-            contacts=self.contacts,
-        )
-
     @classmethod
     def get_by_id(cls, user_id: int) -> Optional['User']:
         return cls.query.filter_by(id=user_id).first()
@@ -154,11 +139,14 @@ class User(db.Model):
     def get_by_username(cls, username: str) -> Optional['User']:
         return cls.query.filter_by(username=username).first()
 
-
-def create_user(user_data: dict) -> User | None:
-    """creates User if username is available"""
-    user = User(user_data)
-    return user.create()
+    @classmethod
+    def create(cls, user_data: dict) -> Optional['User']:
+        """creates User if username is available"""
+        if cls.get_by_username(user_data.get('username')):
+            return
+        user = User(user_data)
+        add(user)
+        return user
 
 
 class EventMember(db.Model):
@@ -225,19 +213,6 @@ class EventMember(db.Model):
     def get_by_id(cls, member_id: int) -> Optional['EventMember']:
         return cls.query.filter_by(id=member_id).first()
 
-    def as_dict(self):
-        return dict(
-            id=self.id,
-            nickname=self.nickname,
-            days_amount=self.days_amount,
-            date_from=self.date_from,
-            date_to=self.date_to,
-            is_drinker=self.is_drinker,
-            is_involved=self.is_involved,
-            money_impact=self.money_impact,
-            role=self.role.name,
-        )
-
     def update(self, member_data: dict):
         self.nickname = member_data.get('nickname')
         self.days_amount = member_data.get('days_amount')
@@ -250,7 +225,9 @@ class EventMember(db.Model):
         db.session.commit()
 
     def delete(self):
+        member_id = self.id
         delete_obj(self)
+        return member_id
 
 
 class Event(db.Model):
@@ -322,20 +299,6 @@ class Event(db.Model):
         self.members.append(member)
         db.session.commit()
 
-    def as_dict(self):
-        return dict(
-            id=self.id,
-            key=self.key,
-            title=self.title,
-            description=self.description,
-            location_id=self.location_id,
-            date_start=self.date_start.isoformat(),
-            date_end=self.date_end.isoformat(),
-            date_tz=self.date_tz,
-            cost_reduction_factor=self.cost_reduction_factor,
-            creator_id=self.creator_id,
-        )
-
     @classmethod
     def get_by_id(cls, event_id: int) -> Optional['Event']:
         return cls.query.filter_by(id=event_id).first()
@@ -344,13 +307,13 @@ class Event(db.Model):
     def get_by_key(cls, event_key: str) -> Optional['Event']:
         return cls.query.filter_by(key=event_key).first()
 
-
-def create_event(event_data: dict, creator: User) -> Event | None:
-    location = validate_location_id(event_data.get('location_id'), creator)
-    if not location:
-        return
-    event = Event(event_data, creator, location)
-    return event
+    @classmethod
+    def create(cls, event_data: dict, creator: User) -> Optional['Event']:
+        location = Location.validate_id_to_user(event_data.get('location_id'), creator)
+        if not location:
+            return
+        event = Event(event_data, creator, location)
+        return event
 
 
 class Location(db.Model):
@@ -400,16 +363,6 @@ class Location(db.Model):
     def __repr__(self):
         return self.address
 
-    def as_dict(self):
-        return dict(
-            id=self.id,
-            name=self.name,
-            address=self.address,
-            geo=self.geo,
-            maps_link=self.maps_link,
-            description=self.description,
-        )
-
     def update(self, location_data: dict):
         self.name = location_data.get('name')
         self.address = location_data.get('address')
@@ -422,16 +375,16 @@ class Location(db.Model):
     def delete(self):
         delete_obj(self)
 
+    @classmethod
+    def get_by_id(cls, location_id: int) -> Optional['Location']:
+        return cls.query.filter_by(id=location_id).first()
 
-def get_location_by_id(location_id: int) -> Location | None:
-    """returns location by id if exists"""
-    return Location.query.filter_by(id=location_id).first()
-
-
-def validate_location_id(location_id: int, user: User) -> Location | None:
-    location = get_location_by_id(location_id)
-    if location and location in user.locations:
-        return location
+    @classmethod
+    def validate_id_to_user(cls, location_id: int, user: User) -> Optional['Location']:
+        """Checks if location id exists and user is location owner"""
+        location = cls.get_by_id(location_id)
+        if location and location in user.locations:
+            return location
 
 
 class EventLocation(db.Model):
@@ -470,7 +423,7 @@ class EventLocation(db.Model):
     description = db.Column(db.UnicodeText)
 
     def __repr__(self):
-        return self.address
+        return self.name
 
 
 class ProductCategory(db.Model):

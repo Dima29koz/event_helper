@@ -11,15 +11,15 @@ from flask_jwt_extended import (
 )
 
 from . import user_account
-from ..models import models
-from ...utils.hider import get_hidden_email, get_hidden_pwd
+from ..models.models import User, Location
+from ..models.views import UserView, LocationView
 from ...utils.mail_utils import send_password_reset_email, send_email_confirmation_mail
 
 
 @user_account.route('/login', methods=["POST"])
 def login():
     request_data = request.get_json()
-    user = models.User.get_by_username(request_data.get('username'))
+    user = User.get_by_username(request_data.get('username'))
     if not user or not user.check_password(request_data.get('pwd')):
         return jsonify(msg='Wrong username or password'), 401
 
@@ -43,7 +43,7 @@ def refresh():
 @user_account.route('/registration', methods=["POST"])
 def registration():
     request_data = request.get_json()
-    user = models.create_user(request_data)
+    user = User.create(request_data)
     if not user:
         return jsonify(msg='username is not allowed'), 400
 
@@ -63,7 +63,7 @@ def reset_password_request():
     current_identity = get_jwt_identity()
     if current_identity:
         return jsonify(msg='user is already authenticated'), 403
-    user = models.User.get_by_username(request_data.get('username'))
+    user = User.get_by_username(request_data.get('username'))
     if not user:
         return jsonify(msg='user not found'), 400
 
@@ -80,20 +80,12 @@ def reset_password_request():
 @jwt_required()
 def profile_settings():
     """view of `profile` page"""
-    return jsonify(
-        username=current_user.username,
-        full_name=current_user.full_name,
-        email=get_hidden_email(current_user.email),
-        phone=current_user.phone,
-        contacts=current_user.contacts,
-        is_email_verified=current_user.is_email_verified,
-        pwd=get_hidden_pwd(),
-    )
+    return jsonify(UserView(current_user).get_one(current_user))
 
 
 @user_account.route('/confirm_email/<string:token>')
 def confirm_email(token: str):
-    user = models.User.verify_token(token, 'confirm_email')
+    user = User.verify_token(token, 'confirm_email')
     if not user:
         return jsonify(msg='Wrong token'), 400
 
@@ -109,7 +101,7 @@ def reset_password(token: str):
         return jsonify(msg='user is already authenticated'), 403
 
     request_data = request.get_json()
-    user = models.User.verify_token(token, 'reset_password')
+    user = User.verify_token(token, 'reset_password')
     if not user:
         return jsonify(msg='Wrong token'), 400
 
@@ -120,30 +112,30 @@ def reset_password(token: str):
 @user_account.route('/locations', methods=["GET"])
 @jwt_required()
 def get_locations():
-    return jsonify([location.as_dict() for location in current_user.locations])
+    return jsonify(LocationView(current_user).get_list(current_user.locations))
 
 
 @user_account.route('/create_location', methods=["POST"])
 @jwt_required()
 def create_location():
     request_data = request.get_json()
-    location = models.Location(request_data, current_user)
-    return jsonify(msg='Location created.', data=location.as_dict())
+    location = Location(request_data, current_user)
+    return jsonify(msg='Location created.', data=LocationView(current_user).get_one(location))
 
 
 @user_account.route('/location/<int:location_id>', methods=["GET", "POST", "DELETE"])
 @jwt_required()
 def modify_location(location_id: int):
-    location = models.validate_location_id(location_id, current_user)
+    location = Location.validate_id_to_user(location_id, current_user)
     if not location:
         return jsonify(msg='Not allowed'), 403
 
     if request.method == 'GET':
-        return jsonify(location.as_dict())
+        return jsonify(LocationView(current_user).get_one(location))
 
     if request.method == 'POST':
         location.update(request.get_json())
-        return jsonify(msg='Location updated', data=location.as_dict())
+        return jsonify(msg='Location updated', data=LocationView(current_user).get_one(location))
 
     if request.method == 'DELETE':
         location.delete()
