@@ -1,5 +1,6 @@
 from . import typefmt
 from .tools import filter_foreign_columns, rec_getattr
+from ..app import db
 from ..app.models import models
 
 
@@ -29,6 +30,9 @@ class BaseView:
     column_details_exclude_list: tuple[str] = None
     column_formatters = dict()
     column_type_formatters: dict = dict(typefmt.BASE_FORMATTERS)
+    column_type_converters: dict = dict()
+    column_editable_list: tuple[str] = None
+    column_editable_exclude_list: tuple[str] = None
 
     def __init__(self, model, current_user: models.User = None):
         self.model = model
@@ -41,6 +45,20 @@ class BaseView:
     def get_list(self, objects):
         columns = self.get_list_columns()
         return [{c: self.get_list_value(obj, c) for c in columns} for obj in objects]
+
+    def update(self, obj, data: dict):
+        columns = self.get_editable_columns()
+
+        is_updated = False
+        for attr, value in data.items():
+            if attr in columns:
+                value = self._get_converted_value(attr, value)
+                if getattr(obj, attr) != value:
+                    setattr(obj, attr, value)
+                    is_updated = True
+        if is_updated:
+            db.session.commit()
+        return is_updated
 
     def get_list_with_data(self, objects):
         columns = self.get_list_columns()
@@ -73,6 +91,15 @@ class BaseView:
             value = type_fmt(value)
         return value
 
+    def _get_converted_value(self, attr, value, column_type_converters=None):
+        if not column_type_converters:
+            column_type_converters = self.column_type_converters
+
+        type_conv = column_type_converters.get(attr)
+        if type_conv:
+            value = type_conv(value)
+        return value
+
     def get_list_value(self, model, name):
         """
             Returns the value to be displayed in the list view
@@ -89,14 +116,14 @@ class BaseView:
             self.column_type_formatters,
         )
 
-    def _scaffold_list_columns(self):
+    def _scaffold_list_columns(self, is_editable=False):
         """
             Return a list of columns from the model.
         """
         columns = []
 
         for p in self._get_model_iterator():
-            if hasattr(p, 'direction'):
+            if not is_editable and hasattr(p, 'direction'):
                 if self.column_display_all_relations or p.direction.name == 'MANYTOONE':
                     columns.append(p.key)
             elif hasattr(p, 'columns'):
@@ -117,6 +144,9 @@ class BaseView:
                     continue
 
                 if not self.column_display_pk and column.primary_key:
+                    continue
+
+                if is_editable and column.primary_key:
                     continue
 
                 columns.append(p.key)
@@ -145,6 +175,12 @@ class BaseView:
         return self._get_column_names(
             only_columns=self.column_details_list or self._scaffold_list_columns(),
             excluded_columns=self.column_details_exclude_list,
+        )
+
+    def get_editable_columns(self):
+        return self._get_column_names(
+            only_columns=self.column_editable_list or self._scaffold_list_columns(is_editable=True),
+            excluded_columns=self.column_editable_exclude_list,
         )
 
     @staticmethod

@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 class Role(Enum):
@@ -11,3 +11,10 @@ class ProductState(Enum):
     added = 2
     in_cart = 3
     bought = 4
+
+
+class EntityType(Enum):
+    event = auto()
+    location = auto()
+    members = auto()
+    products = auto()
