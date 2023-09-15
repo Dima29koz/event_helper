@@ -3,6 +3,7 @@ from flask_socketio import Namespace, join_room, emit, leave_room, send
 from server.app.models.models import Event, User, EventMember
 from server.app.models.views import EventView, EventLocationView, EventMemberView
 from server.common.enums import Role, EntityType
+from server.common.exceptions import MemberWithGivenUserIDExists
 from server.utils.decorators import keys_required, socket_roles_required as roles_required
 
 
@@ -58,9 +59,9 @@ class EventManagementNamespace(Namespace):
     @staticmethod
     @keys_required(user_token=True)
     @roles_required()
-    def on_delete_event(data: dict, event: Event, current_user: User):
-        # todo
-        emit('delete_event', event.key, to=event.id)
+    def on_delete_event(_: dict, event: Event, current_user: User):
+        event_id, key = event.delete()
+        emit('delete_event', dict(id=event_id, key=key), to=event.id)
 
     @staticmethod
     @keys_required(user_token=True)
@@ -86,17 +87,25 @@ class EventManagementNamespace(Namespace):
 
     @staticmethod
     @keys_required(user_token=True)
+    def on_delete_me(_, event: Event, current_user: User):
+        member = event.get_member_by_user(current_user)
+        EventManagementNamespace._delete_member(member, event)
+
+    @staticmethod
+    @keys_required(user_token=True)
     @roles_required({Role.organizer, })
     def on_delete_member(data: dict, event: Event, current_user: User):
-        member_id = data.get('member').get('id')
-        # todo validate
-        member = EventMember.get_by_id(member_id)
-        member.delete()
-        emit('delete_member', member.id, to=event.id)
+        member = event.get_member_by_id(data.get('member_id'))
+        EventManagementNamespace._delete_member(member, event)
 
     @staticmethod
     def _add_member(member_data: dict, event: Event, current_user: User | None):
-        member = event.add_member(member_data)
+        try:
+            member = event.add_member(member_data)
+        except MemberWithGivenUserIDExists as e:
+            emit('error', e.args)
+            return
+
         if not member:
             emit('error', 'Bad member`s data')
         else:
@@ -111,3 +120,11 @@ class EventManagementNamespace(Namespace):
         view = EventMemberView(current_user)
         if view.update_obj(member, member_data):
             emit('update_event_member', view.get_one(member), to=event.id)
+
+    @staticmethod
+    def _delete_member(member: EventMember, event: Event):
+        if not member:
+            emit('error', 'Member not found')
+            return
+        member_id = member.delete()
+        emit('delete_member', dict(member_id=member_id), to=event.id)

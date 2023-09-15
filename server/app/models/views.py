@@ -56,7 +56,7 @@ class EventMemberView(BaseView):
     column_exclude_list = ('event', )
     column_details_exclude_list = ('event', )
     column_formatters = dict(
-        user=str,
+        user=lambda user: str(user) if user else None,
         event=str,
     )
     column_editable_exclude_list = ('money_impact', )
