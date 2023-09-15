@@ -50,13 +50,13 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">event_management events</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#connect">connect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#disconnect">disconnect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#get-event-data">get_event_data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#update-event-data">update_event_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-data">get_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#update-data">update_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#delete-event">delete_event</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#get-members">get_members</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#add-member">add_member</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#join-event">join_event</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#update-member">update_member</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#update-me">update_me</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#delete-me">delete_me</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#delete-member">delete_member</a></li>
 </ul>
 </li>
@@ -117,29 +117,257 @@
 <section id="disconnect">
 <h2>disconnect<a class="headerlink" href="#disconnect" title="Permalink to this heading"></a></h2>
 </section>
-<section id="get-event-data">
-<h2>get_event_data<a class="headerlink" href="#get-event-data" title="Permalink to this heading"></a></h2>
+<section id="get-data">
+<h2>get_data<a class="headerlink" href="#get-data" title="Permalink to this heading"></a></h2>
+<p><strong>Example request:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Optional[auth] - user access tokens</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="c1">// possible values: [&#39;event&#39;, &#39;location&#39;, &#39;members&#39;]</span>
+<span class="w">    </span><span class="nt">&quot;entity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;event&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Emits:</strong> [to current_user]</p>
+<ul class="simple">
+<li><p>get_event</p></li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;event1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;description🍰&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;date_start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-02T07:20:35&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;date_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-04T07:20:35&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;date_tz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;+0300&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cost_reduction_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>get_event_location</p></li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>get_event_members</p></li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Admin&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;nickname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;days_amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_from&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_to&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_drinker&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_involved&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;money_impact&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;organizer&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
 </section>
-<section id="update-event-data">
-<h2>update_event_data<a class="headerlink" href="#update-event-data" title="Permalink to this heading"></a></h2>
+<section id="update-data">
+<h2>update_data<a class="headerlink" href="#update-data" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires User to be <strong>event creator</strong> or member with <strong>organizer</strong> role</p>
+</div>
+<p><strong>Example request:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;entity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;event&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;event1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;description🍰&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-02T07:20:35.0Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-04T07:20:35.0Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_tz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;+0300&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cost_reduction_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;entity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;location&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Гадюкино&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;экологический лагерь Клочково-Гадюкино, сельское поселение Тарутино, Жуковский район, Калужская область&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;55.104086, 36.998032&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maps_link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yandex.ru/maps/-/CDQ0mW-Y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;описание локации&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;entity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;nickname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Skipper&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;days_amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-02T07:20:34.0Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_to&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_drinker&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_involved&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;organizer&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Emits:</strong> [to all connected users]</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Response is same to <cite>get_data</cite> response</p>
+</div>
+<ul class="simple">
+<li><p>update_event</p></li>
+<li><p>update_event_location</p></li>
+<li><p>update_event_member</p></li>
+</ul>
 </section>
 <section id="delete-event">
 <h2>delete_event<a class="headerlink" href="#delete-event" title="Permalink to this heading"></a></h2>
-</section>
-<section id="get-members">
-<h2>get_members<a class="headerlink" href="#get-members" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires User to be <strong>event creator</strong></p>
+</div>
+<p><strong>Example request:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Emits:</strong> [to all connected users]</p>
+<ul class="simple">
+<li><p>delete_event</p></li>
+</ul>
 </section>
 <section id="add-member">
 <h2>add_member<a class="headerlink" href="#add-member" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires User to be <strong>event creator</strong> or member with <strong>organizer</strong> role</p>
+</div>
+<p><strong>Example request:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;member&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;nickname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;days_amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_from&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_to&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_drinker&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_involved&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;organizer&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Emits:</strong> [to all connected users]</p>
+<ul class="simple">
+<li><p>add_member</p></li>
+</ul>
 </section>
 <section id="join-event">
 <h2>join_event<a class="headerlink" href="#join-event" title="Permalink to this heading"></a></h2>
+<p><strong>Example request:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;member&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;nickname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;days_amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-02T07:20:34.0Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_to&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_drinker&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Emits:</strong> [to all connected users]</p>
+<ul class="simple">
+<li><p>add_member</p></li>
+</ul>
 </section>
-<section id="update-member">
-<h2>update_member<a class="headerlink" href="#update-member" title="Permalink to this heading"></a></h2>
+<section id="update-me">
+<h2>update_me<a class="headerlink" href="#update-me" title="Permalink to this heading"></a></h2>
+<p><strong>Example request:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;member&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;nickname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;days_amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-02T07:20:34.0Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;date_to&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_drinker&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Emits:</strong> [to all connected users]</p>
+<ul class="simple">
+<li><p>update_event_member</p></li>
+</ul>
+</section>
+<section id="delete-me">
+<h2>delete_me<a class="headerlink" href="#delete-me" title="Permalink to this heading"></a></h2>
+<p><strong>Emits:</strong> [to all connected users]</p>
+<ul class="simple">
+<li><p>delete_member</p></li>
+</ul>
 </section>
 <section id="delete-member">
 <h2>delete_member<a class="headerlink" href="#delete-member" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires User to be <strong>event creator</strong> or member with <strong>organizer</strong> role</p>
+</div>
+<p><strong>Example request:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;auth&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_token}}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;csrf_access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{csrf_access_token}}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;member_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Emits:</strong> [to all connected users]</p>
+<ul class="simple">
+<li><p>delete_member</p></li>
+</ul>
 </section>
 </section>
 
