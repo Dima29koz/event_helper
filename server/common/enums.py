@@ -17,4 +17,6 @@ class EntityType(Enum):
     event = auto()
     location = auto()
     members = auto()
+    member = auto()
+    member_me = auto()
     products = auto()

@@ -8,6 +8,7 @@ from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from server.app import db, jwt_manager
+from server.common.exceptions import MemberWithGivenUserIDExists
 from server.utils.time import date_from_str
 from server.common.enums import Role, ProductState
 
@@ -184,15 +185,12 @@ class EventMember(db.Model):
     def __init__(self, member_data: dict):
         self.nickname = member_data.get('nickname')
         self.days_amount = member_data.get('days_amount')
-        self.date_from = member_data.get('date_from')
-        self.date_to = member_data.get('date_to')
+        self.date_from = date_from_str(member_data.get('date_from'))
+        self.date_to = date_from_str(member_data.get('date_to'))
         self.is_drinker = member_data.get('is_drinker')
         self.is_involved = member_data.get('is_involved', True)
         self.role = Role[member_data.get('role')]
         self.user_id = member_data.get('user_id')
-        self.event_id = member_data.get('member_id')
-
-        add(self)
 
     __tablename__ = 'event_member'
     id = db.Column(db.Integer(), primary_key=True)
@@ -215,17 +213,6 @@ class EventMember(db.Model):
     @classmethod
     def get_by_id(cls, member_id: int) -> Optional['EventMember']:
         return cls.query.filter_by(id=member_id).first()
-
-    def update(self, member_data: dict):
-        self.nickname = member_data.get('nickname')
-        self.days_amount = member_data.get('days_amount')
-        self.date_from = member_data.get('date_from')
-        self.date_to = member_data.get('date_to')
-        self.is_drinker = member_data.get('is_drinker')
-        self.is_involved = member_data.get('is_involved')
-        self.role = Role[member_data.get('role')]
-
-        db.session.commit()
 
     def delete(self):
         member_id = self.id
@@ -298,9 +285,38 @@ class Event(db.Model):
     def __repr__(self):
         return self.title
 
-    def add_member(self, member: 'EventMember'):
+    def add_member(self, member_data: dict):
+        if self.has_member(member_data.get('user_id')):
+            raise MemberWithGivenUserIDExists()
+
+        try:
+            member = EventMember(member_data)
+        except (KeyError, ValueError):
+            return
         self.members.append(member)
         db.session.commit()
+        return member
+
+    def get_member_by_id(self, member_id: int) -> EventMember | None:
+        return db.session.scalars(
+            db.select(EventMember)
+            .join(EventMember.event)
+            .where(EventMember.id == member_id)
+            .where(Event.id == self.id)
+        ).first()
+
+    def get_member_by_user(self, user: User) -> EventMember | None:
+        return db.session.scalars(
+            db.select(EventMember)
+            .join(EventMember.event)
+            .where(EventMember.user == user)
+            .where(Event.id == self.id)
+        ).first()
+
+    def has_member(self, user_id: int | None) -> bool:
+        if not user_id:
+            return False
+        return any(member.user_id == user_id for member in self.members)
 
     @classmethod
     def get_by_id(cls, event_id: int) -> Optional['Event']:

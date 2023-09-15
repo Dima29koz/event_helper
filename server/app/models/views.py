@@ -1,5 +1,6 @@
 from server.app.models import models
 from server.common.base_view import BaseView
+from server.common.enums import Role
 from server.utils.hider import get_hidden_email, get_hidden_pwd
 from server.utils.time import date_from_str
 
@@ -53,9 +54,16 @@ class EventLocationView(BaseView):
 
 class EventMemberView(BaseView):
     column_exclude_list = ('event', )
+    column_details_exclude_list = ('event', )
     column_formatters = dict(
         user=str,
         event=str,
+    )
+    column_editable_exclude_list = ('money_impact', )
+    column_type_converters = dict(
+        date_from=date_from_str,
+        date_to=date_from_str,
+        role=lambda role: Role[role]
     )
 
     def __init__(self, current_user):

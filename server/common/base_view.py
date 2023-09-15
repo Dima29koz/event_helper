@@ -46,7 +46,15 @@ class BaseView:
         columns = self.get_list_columns()
         return [{c: self.get_list_value(obj, c) for c in columns} for obj in objects]
 
-    def update(self, obj, data: dict):
+    def get_list_with_data(self, objects):
+        columns = self.get_list_columns()
+        return [
+            {c: self.get_list_value(obj, c) for c in columns} |
+            {key: self._get_formatted_value(value) for key, value in data.items()}
+            for obj, data in objects
+        ]
+
+    def update_obj(self, obj, data: dict):
         columns = self.get_editable_columns()
 
         is_updated = False
@@ -59,14 +67,6 @@ class BaseView:
         if is_updated:
             db.session.commit()
         return is_updated
-
-    def get_list_with_data(self, objects):
-        columns = self.get_list_columns()
-        return [
-            {c: self.get_list_value(obj, c) for c in columns} |
-            {key: self._get_formatted_value(value) for key, value in data.items()}
-            for obj, data in objects
-        ]
 
     def _get_list_value(self, model, name, column_formatters, column_type_formatters):
         value = rec_getattr(model, name)

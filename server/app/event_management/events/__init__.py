@@ -9,3 +9,4 @@ sio.on_namespace(EventManagementNamespace('/event_management'))
 @sio.on_error_default
 def default_error_handler(e):
     emit('error', e.args)
+    raise e
