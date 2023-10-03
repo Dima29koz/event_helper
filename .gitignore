@@ -4,3 +4,4 @@
 
 tmp.*
 /docs/build/
+/client/event_client/

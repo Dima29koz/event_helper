@@ -33,7 +33,6 @@ get_data
     {
         // Optional[auth] - user access tokens
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         },
         // possible values: ['event', 'location', 'members']
@@ -97,7 +96,6 @@ update_data
 
     {
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         },
         "entity": "event",
@@ -113,7 +111,6 @@ update_data
 
     {
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         },
         "entity": "location",
@@ -128,7 +125,6 @@ update_data
 
     {
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         },
         "entity": "member",
@@ -164,7 +160,6 @@ delete_event
 
     {
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         }
     }
@@ -184,7 +179,6 @@ add_member
 
     {
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         },
         "member": {
@@ -211,7 +205,6 @@ join_event
 
     {
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         },
         "member": {
@@ -235,7 +228,6 @@ update_me
 
     {
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         },
         "member": {
@@ -268,7 +260,6 @@ delete_member
 
     {
         "auth": {
-            "access_token": "{{access_token}}",
             "csrf_access_token": "{{csrf_access_token}}"
         },
         "member_id": 2

@@ -7,7 +7,7 @@ def enum_formatter(value):
 
 
 def datetime_formatter(value):
-    return value.isoformat()
+    return value.isoformat() + 'Z'
 
 
 BASE_FORMATTERS = {

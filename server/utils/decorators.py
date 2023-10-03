@@ -33,7 +33,7 @@ def keys_required(user_token=False, optional=False):
             if not event:
                 raise ConnectionRefusedError('Bad event key')
             if user_token:
-                token = args[0].get('auth', dict()).get('access_token')
+                token = request.cookies.get('access_token_cookie')
                 csrf_token = args[0].get('auth', dict()).get('csrf_access_token')
                 if token and csrf_token:
                     token_data = decode_token(token, csrf_token)
