@@ -24,3 +24,21 @@ def get_events():
         creator_on=event_view.get_list(current_user.events),
         member_on=event_view.get_list_with_data(current_user.get_events_where_member())
     )
+
+
+@event_management.route('/member_info/<event_key>', methods=["GET"])
+@jwt_required()
+def get_member_info(event_key: str):
+    event = Event.get_by_key(event_key)
+    if not event:
+        return jsonify(msg='Wrong event key'), 400
+
+    roles = []
+    if current_user == event.creator:
+        roles.append('creator')
+    member = event.get_member_by_user(current_user)
+    if member:
+        roles.append(member.role.name)
+    if not roles:
+        return jsonify(msg='You are not event member'), 400
+    return jsonify(roles=roles)
