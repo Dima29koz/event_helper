@@ -81,8 +81,10 @@ class EventManagementNamespace(Namespace):
     @keys_required(user_token=True)
     def on_update_me(data: dict, event: Event, current_user: User):
         member_data = data.get('data')
-        member_data.pop('role', None)
         member = event.get_member_by_user(current_user)
+        if member.role is Role.member and event.creator != current_user:
+            member_data.pop('role', None)
+
         EventManagementNamespace._update_member(member, member_data, event, current_user)
 
     @staticmethod
