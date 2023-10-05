@@ -46,6 +46,9 @@ class BaseView:
         columns = self.get_list_columns()
         return [{c: self.get_list_value(obj, c) for c in columns} for obj in objects]
 
+    def get_all(self):
+        return self.get_list(self.model.query.all())
+
     def get_list_with_data(self, objects):
         columns = self.get_list_columns()
         return [

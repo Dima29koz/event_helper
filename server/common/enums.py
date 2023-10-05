@@ -20,3 +20,4 @@ class EntityType(Enum):
     member = auto()
     member_me = auto()
     products = auto()
+    product = auto()

@@ -5,6 +5,7 @@ from typing import Optional
 
 import jwt
 from flask import current_app
+from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from server.app import db, jwt_manager
@@ -250,6 +251,8 @@ class Event(db.Model):
     :type location: EventLocation
     :cvar members: event members
     :type members: list[EventMember]
+    :cvar products: event products
+    :type products: list[Product]
     """
 
     def __init__(self, event_data: dict, creator: User, location: 'Location'):
@@ -290,6 +293,12 @@ class Event(db.Model):
         passive_deletes=True,
         backref=db.backref('event', lazy=True)
     )
+    products = db.relationship(
+        "Product",
+        cascade="all, delete",
+        passive_deletes=True,
+        backref=db.backref('event', lazy=True)
+    )
 
     def __repr__(self):
         return self.title
@@ -306,11 +315,25 @@ class Event(db.Model):
         db.session.commit()
         return member
 
+    def add_product(self, product_data: dict):
+        product = Product(product_data)
+        self.products.append(product)
+        db.session.commit()
+        return product
+
     def get_member_by_id(self, member_id: int) -> EventMember | None:
         return db.session.scalars(
             db.select(EventMember)
             .join(EventMember.event)
             .where(EventMember.id == member_id)
+            .where(Event.id == self.id)
+        ).first()
+
+    def get_product_by_id(self, product_id: int) -> Optional['Product']:
+        return db.session.scalars(
+            db.select(Product)
+            .join(Product.event)
+            .where(Product.id == product_id)
             .where(Event.id == self.id)
         ).first()
 
@@ -469,12 +492,31 @@ class ProductCategory(db.Model):
     :type name: str
 
     """
+
+    def __init__(self, name: str):
+        self.name = name
+
     __tablename__ = 'product_category'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
 
     def __repr__(self):
         return self.name
+
+    @classmethod
+    def get_by_name(cls, name: str) -> Optional['ProductCategory']:
+        return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def create(cls, name: str) -> 'ProductCategory':
+        """creates ProductCategory if name not exists else returns category"""
+        category = cls.get_by_name(name)
+        if category:
+            return category
+
+        category = ProductCategory(name)
+        add(category)
+        return category
 
 
 class ProductType(db.Model):
@@ -486,12 +528,31 @@ class ProductType(db.Model):
     :type name: str
 
     """
+
+    def __init__(self, name: str):
+        self.name = name
+
     __tablename__ = 'product_type'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
 
     def __repr__(self):
         return self.name
+
+    @classmethod
+    def get_by_name(cls, name: str) -> Optional['ProductType']:
+        return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def create(cls, name: str) -> 'ProductType':
+        """creates ProductType if name not exists else returns type"""
+        p_type = cls.get_by_name(name)
+        if p_type:
+            return p_type
+
+        p_type = ProductType(name)
+        add(p_type)
+        return p_type
 
 
 class ProductUnit(db.Model):
@@ -503,12 +564,31 @@ class ProductUnit(db.Model):
     :type name: str
 
     """
+
+    def __init__(self, name: str):
+        self.name = name
+
     __tablename__ = 'product_unit'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
 
     def __repr__(self):
         return self.name
+
+    @classmethod
+    def get_by_name(cls, name: str) -> Optional['ProductUnit']:
+        return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def create(cls, name: str) -> 'ProductUnit':
+        """creates ProductUnit if name not exists else returns unit"""
+        unit = cls.get_by_name(name)
+        if unit:
+            return unit
+
+        unit = ProductUnit(name)
+        add(unit)
+        return unit
 
 
 class BaseProduct(db.Model):
@@ -528,6 +608,14 @@ class BaseProduct(db.Model):
     :type price_supposed: float
 
     """
+
+    def __init__(self, product_data: dict):
+        self.name = product_data.get('name')
+        self.category_id = product_data.get('category_id')
+        self.type_id = product_data.get('type_id')
+        self.unit_id = product_data.get('unit_id')
+        self.price_supposed = product_data.get('price_supposed', 0)
+
     __tablename__ = 'base_product'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
@@ -536,8 +624,34 @@ class BaseProduct(db.Model):
     unit_id = db.Column(db.Integer(), db.ForeignKey('product_unit.id'), nullable=False)
     price_supposed = db.Column(db.Float())
 
+    category = db.relationship("ProductCategory", foreign_keys=[category_id], backref=db.backref('base_products', lazy=True))
+    type = db.relationship("ProductType", foreign_keys=[type_id], backref=db.backref('base_products', lazy=True))
+    unit = db.relationship("ProductUnit", foreign_keys=[unit_id])
+
     def __repr__(self):
         return self.name
+
+    @classmethod
+    def get_by_name(cls, name: str) -> Optional['BaseProduct']:
+        return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def get_by_id(cls, product_id: int) -> Optional['BaseProduct']:
+        return cls.query.filter_by(id=product_id).first()
+
+    @classmethod
+    def create(cls, product_data: dict) -> Optional['BaseProduct']:
+        """creates BaseProduct if name not exists else returns baseProduct"""
+        product = cls.get_by_name(product_data.get('name'))
+        if product:
+            return product
+
+        try:
+            product = BaseProduct(product_data)
+            add(product)
+            return product
+        except IntegrityError as _:
+            return
 
 
 class Product(db.Model):
@@ -561,6 +675,17 @@ class Product(db.Model):
     :type event_id: int
 
     """
+
+    def __init__(self, product_data: dict):
+        state = product_data.get('state', None)
+        if state is None:
+            state = ProductState.added
+        else:
+            state = ProductState[state]
+        self.product_id = product_data.get('product_id')
+        self.state = state
+        self.amount = product_data.get('amount', 1)
+
     __tablename__ = 'product'
     id = db.Column(db.Integer(), primary_key=True)
     product_id = db.Column(db.Integer(), db.ForeignKey('base_product.id'), nullable=False)
@@ -571,5 +696,7 @@ class Product(db.Model):
     market = db.Column(db.String(50))
     event_id = db.Column(db.Integer(), db.ForeignKey('event.id', ondelete="CASCADE"))
 
+    base_product = db.relationship("BaseProduct", foreign_keys=[product_id])
+
     def __repr__(self):
-        return self.id
+        return str(self.base_product) + ' - ' + self.state.name

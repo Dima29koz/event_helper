@@ -1,6 +1,6 @@
 from server.app.models import models
 from server.common.base_view import BaseView
-from server.common.enums import Role
+from server.common.enums import Role, ProductState
 from server.utils.hider import get_hidden_email, get_hidden_pwd
 from server.utils.time import date_from_str
 
@@ -18,7 +18,7 @@ class UserView(BaseView):
 
 class LocationView(BaseView):
     column_list = ('id', 'name')
-    column_details_exclude_list = ('creator', )
+    column_details_exclude_list = ('creator',)
     column_formatters = dict(
         creator=str,
     )
@@ -34,7 +34,7 @@ class EventView(BaseView):
         location=str,
         creator=str,
     )
-    column_editable_exclude_list = ('key', )
+    column_editable_exclude_list = ('key',)
     column_type_converters = dict(
         date_start=date_from_str,
         date_end=date_from_str
@@ -46,20 +46,20 @@ class EventView(BaseView):
 
 class EventLocationView(BaseView):
     column_list = ('id', 'name')
-    column_details_exclude_list = ('id', )
+    column_details_exclude_list = ('id',)
 
     def __init__(self, current_user):
         super().__init__(models.EventLocation, current_user)
 
 
 class EventMemberView(BaseView):
-    column_exclude_list = ('event', )
-    column_details_exclude_list = ('event', )
+    column_exclude_list = ('event',)
+    column_details_exclude_list = ('event',)
     column_formatters = dict(
         user=lambda user: str(user) if user else None,
         event=str,
     )
-    column_editable_exclude_list = ('money_impact', )
+    column_editable_exclude_list = ('money_impact',)
     column_type_converters = dict(
         date_from=date_from_str,
         date_to=date_from_str,
@@ -68,3 +68,42 @@ class EventMemberView(BaseView):
 
     def __init__(self, current_user):
         super().__init__(models.EventMember, current_user)
+
+
+class ProductCategoryView(BaseView):
+    def __init__(self, current_user):
+        super().__init__(models.ProductCategory, current_user)
+
+
+class ProductTypeView(BaseView):
+    def __init__(self, current_user):
+        super().__init__(models.ProductType, current_user)
+
+
+class ProductUnitView(BaseView):
+    def __init__(self, current_user):
+        super().__init__(models.ProductUnit, current_user)
+
+
+class BaseProductView(BaseView):
+    column_formatters = dict(
+        category=str,
+        type=str,
+        unit=str,
+    )
+
+    def __init__(self, current_user):
+        super().__init__(models.BaseProduct, current_user)
+
+
+class EventProductView(BaseView):
+    column_formatters = dict(
+        event=str,
+        base_product=BaseProductView(None).get_one
+    )
+    column_type_converters = dict(
+        state=lambda state: ProductState[state]
+    )
+
+    def __init__(self, current_user):
+        super().__init__(models.Product, current_user)

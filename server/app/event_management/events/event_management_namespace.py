@@ -1,7 +1,7 @@
 from flask_socketio import Namespace, join_room, emit, leave_room, send
 
-from server.app.models.models import Event, User, EventMember
-from server.app.models.views import EventView, EventLocationView, EventMemberView
+from server.app.models.models import Event, User, EventMember, Product
+from server.app.models.views import EventView, EventLocationView, EventMemberView, EventProductView
 from server.common.enums import Role, EntityType
 from server.common.exceptions import MemberWithGivenUserIDExists
 from server.utils.decorators import keys_required, socket_roles_required as roles_required
@@ -29,6 +29,8 @@ class EventManagementNamespace(Namespace):
                 emit('get_event_location', EventLocationView(current_user).get_one(event.location))
             case EntityType.members.name:
                 emit('get_event_members', EventMemberView(current_user).get_list(event.members))
+            case EntityType.products.name:
+                emit('get_event_products', EventProductView(current_user).get_list(event.products))
             case _:
                 emit('error', 'NotImplemented')
 
@@ -52,6 +54,10 @@ class EventManagementNamespace(Namespace):
             case EntityType.member.name:
                 member = event.get_member_by_id(entity_data.pop('id', None))
                 EventManagementNamespace._update_member(member, entity_data, event, current_user)
+
+            case EntityType.product.name:
+                product = event.get_product_by_id(entity_data.pop('id', None))
+                EventManagementNamespace._update_product(product, entity_data, event, current_user)
 
             case _:
                 emit('error', 'NotImplemented')
@@ -101,6 +107,13 @@ class EventManagementNamespace(Namespace):
         EventManagementNamespace._delete_member(member, event)
 
     @staticmethod
+    @keys_required(user_token=True)
+    @roles_required({Role.organizer, })
+    def on_add_product(data: dict, event: Event, current_user: User):
+        product = event.add_product(data.get('product'))
+        emit('add_product', EventProductView(current_user).get_one(product))
+
+    @staticmethod
     def _add_member(member_data: dict, event: Event, current_user: User | None):
         try:
             member = event.add_member(member_data)
@@ -115,13 +128,22 @@ class EventManagementNamespace(Namespace):
             emit('add_member', view.get_one(member), to=event.id)
 
     @staticmethod
-    def _update_member(member: EventMember, member_data: dict, event: Event, current_user: User):
+    def _update_member(member: EventMember | None, member_data: dict, event: Event, current_user: User):
         if not member:
             emit('error', 'Member not found')
             return
         view = EventMemberView(current_user)
         if view.update_obj(member, member_data):
             emit('update_event_member', view.get_one(member), to=event.id)
+
+    @staticmethod
+    def _update_product(product: Product | None, product_data: dict, event: Event, current_user: User):
+        if not product:
+            emit('error', 'Product not found')
+            return
+        view = EventProductView(current_user)
+        if view.update_obj(product, product_data):
+            emit('update_event_product', view.get_one(product), to=event.id)
 
     @staticmethod
     def _delete_member(member: EventMember, event: Event):
