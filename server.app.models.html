@@ -101,7 +101,7 @@
 <span id="server-app-models-module"></span><h1>server.app.models module<a class="headerlink" href="#module-server.app.models.models" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="server.app.models.models.BaseProduct">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">BaseProduct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.BaseProduct" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">BaseProduct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.BaseProduct" title="Permalink to this definition"></a></dt>
 <dd><p>BaseProduct model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
@@ -115,6 +115,12 @@
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="server.app.models.models.BaseProduct.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#server.app.models.models.BaseProduct" title="server.app.models.models.BaseProduct"><span class="pre">BaseProduct</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#server.app.models.models.BaseProduct.create" title="Permalink to this definition"></a></dt>
+<dd><p>creates BaseProduct if name not exists else returns baseProduct</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -136,6 +142,7 @@
 <li><p><strong>creator</strong> – creator User object</p></li>
 <li><p><strong>location</strong> – event location object</p></li>
 <li><p><strong>members</strong> – event members</p></li>
+<li><p><strong>products</strong> – event products</p></li>
 </ul>
 </dd>
 </dl>
@@ -212,7 +219,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="server.app.models.models.Product">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">Product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.Product" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">Product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.Product" title="Permalink to this definition"></a></dt>
 <dd><p>Product model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
@@ -232,7 +239,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="server.app.models.models.ProductCategory">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">ProductCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.ProductCategory" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">ProductCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.ProductCategory" title="Permalink to this definition"></a></dt>
 <dd><p>ProductCategory model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
@@ -242,11 +249,17 @@
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="server.app.models.models.ProductCategory.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#server.app.models.models.ProductCategory" title="server.app.models.models.ProductCategory"><span class="pre">ProductCategory</span></a></span></span><a class="headerlink" href="#server.app.models.models.ProductCategory.create" title="Permalink to this definition"></a></dt>
+<dd><p>creates ProductCategory if name not exists else returns category</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="server.app.models.models.ProductType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">ProductType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.ProductType" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">ProductType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.ProductType" title="Permalink to this definition"></a></dt>
 <dd><p>ProductType model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
@@ -256,11 +269,17 @@
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="server.app.models.models.ProductType.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#server.app.models.models.ProductType" title="server.app.models.models.ProductType"><span class="pre">ProductType</span></a></span></span><a class="headerlink" href="#server.app.models.models.ProductType.create" title="Permalink to this definition"></a></dt>
+<dd><p>creates ProductType if name not exists else returns type</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="server.app.models.models.ProductUnit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">ProductUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.ProductUnit" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">server.app.models.models.</span></span><span class="sig-name descname"><span class="pre">ProductUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#server.app.models.models.ProductUnit" title="Permalink to this definition"></a></dt>
 <dd><p>ProductUnit model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
@@ -270,6 +289,12 @@
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="server.app.models.models.ProductUnit.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#server.app.models.models.ProductUnit" title="server.app.models.models.ProductUnit"><span class="pre">ProductUnit</span></a></span></span><a class="headerlink" href="#server.app.models.models.ProductUnit.create" title="Permalink to this definition"></a></dt>
+<dd><p>creates ProductUnit if name not exists else returns unit</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
