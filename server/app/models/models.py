@@ -317,6 +317,7 @@ class Event(db.Model):
 
     def add_product(self, product_data: dict):
         product = self.add_products([product_data])[0]
+        return product
 
     def add_products(self, products: list[dict]):
         added_products = []
@@ -630,7 +631,8 @@ class BaseProduct(db.Model):
     unit_id = db.Column(db.Integer(), db.ForeignKey('product_unit.id'), nullable=False)
     price_supposed = db.Column(db.Float())
 
-    category = db.relationship("ProductCategory", foreign_keys=[category_id], backref=db.backref('base_products', lazy=True))
+    category = db.relationship("ProductCategory", foreign_keys=[category_id],
+                               backref=db.backref('base_products', lazy=True))
     type = db.relationship("ProductType", foreign_keys=[type_id], backref=db.backref('base_products', lazy=True))
     unit = db.relationship("ProductUnit", foreign_keys=[unit_id])
 
