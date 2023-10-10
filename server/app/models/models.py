@@ -316,10 +316,16 @@ class Event(db.Model):
         return member
 
     def add_product(self, product_data: dict):
-        product = Product(product_data)
-        self.products.append(product)
+        product = self.add_products([product_data])[0]
+
+    def add_products(self, products: list[dict]):
+        added_products = []
+        for product_data in products:
+            product = Product(product_data)
+            added_products.append(product)
+            self.products.append(product)
         db.session.commit()
-        return product
+        return added_products
 
     def get_member_by_id(self, member_id: int) -> EventMember | None:
         return db.session.scalars(
@@ -685,6 +691,9 @@ class Product(db.Model):
         self.product_id = product_data.get('product_id')
         self.state = state
         self.amount = product_data.get('amount', 1)
+        self.price_final = round(float(product_data.get('price_final', 0)), 2)
+        self.description = product_data.get('description', None)
+        self.market = product_data.get('market', None)
 
     __tablename__ = 'product'
     id = db.Column(db.Integer(), primary_key=True)

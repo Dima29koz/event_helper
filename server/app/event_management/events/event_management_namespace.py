@@ -111,7 +111,14 @@ class EventManagementNamespace(Namespace):
     @roles_required({Role.organizer, })
     def on_add_product(data: dict, event: Event, current_user: User):
         product = event.add_product(data.get('product'))
-        emit('add_product', EventProductView(current_user).get_one(product))
+        emit('add_product', EventProductView(current_user).get_one(product), to=event.id)
+
+    @staticmethod
+    @keys_required(user_token=True)
+    @roles_required({Role.organizer, })
+    def on_add_products(data: dict, event: Event, current_user: User):
+        products = event.add_products(data.get('products'))
+        emit('add_products', EventProductView(current_user).get_list(products), to=event.id)
 
     @staticmethod
     def _add_member(member_data: dict, event: Event, current_user: User | None):
