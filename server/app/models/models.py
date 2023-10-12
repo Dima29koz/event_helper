@@ -316,17 +316,23 @@ class Event(db.Model):
         return member
 
     def add_product(self, product_data: dict):
-        product = self.add_products([product_data])[0]
-        return product
+        added_products, updated_products = self.add_products([product_data])
+        return added_products[0], updated_products[0]
 
     def add_products(self, products: list[dict]):
         added_products = []
+        updated_products = []
         for product_data in products:
-            product = Product(product_data)
-            added_products.append(product)
-            self.products.append(product)
+            product = self.get_not_bought_product(product_data.get('product_id'))
+            if product:
+                product.amount = product_data.get('amount')
+                updated_products.append(product)
+            else:
+                product = Product(product_data)
+                added_products.append(product)
+                self.products.append(product)
         db.session.commit()
-        return added_products
+        return added_products, updated_products
 
     def get_member_by_id(self, member_id: int) -> EventMember | None:
         return db.session.scalars(
@@ -352,10 +358,25 @@ class Event(db.Model):
             .where(Event.id == self.id)
         ).first()
 
+    def get_not_bought_product(self, base_product_id: int) -> Optional['Product']:
+        return db.session.scalars(
+            db.select(Product)
+            .join(Product.event)
+            .where(Product.product_id == base_product_id)
+            .where(Product.state != ProductState.bought)
+            .where(Event.id == self.id)
+        ).first()
+
     def has_member(self, user_id: int | None) -> bool:
         if not user_id:
             return False
         return any(member.user_id == user_id for member in self.members)
+
+    def has_not_bought_product(self, base_product_id: int) -> bool:
+        return any(
+            product.product_id == base_product_id and product.state != ProductState.bought
+            for product in self.products
+        )
 
     @classmethod
     def get_by_id(cls, event_id: int) -> Optional['Event']:

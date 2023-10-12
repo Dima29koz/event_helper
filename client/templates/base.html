@@ -11,41 +11,6 @@
 </head>
 <body>
 <header class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Header">
-    <div class="container">
-        <a href="{{ url_for('main.index') }}" class="navbar-brand">На главную</a>
-        <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#header" aria-controls="header">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="offcanvas offcanvas-end bg-dark cropped" data-bs-scroll="true" tabindex="-1" id="header" aria-labelledby="headerLable">
-            <ul class="navbar-nav ms-sm-auto mb-2 mx-3 mx-sm-0 mb-sm-0">
-                <li class="nav-item">
-                    <a class="nav-link active text-decoration-none" href="/#">Мессенджер</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active text-decoration-none" href="/#">Услуги</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active text-decoration-none" href="/#">Инциденты</a>
-                </li>
-
-
-                <li class="nav-item dropdown">
-                    <a href="#" class="d-flex ms-sm-auto nav-link active text-decoration-none " id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{url_for('static', filename='images/default_avatar.jpg')}}" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <p id="get-user-name" class="my-0 dropdown-toggle">username</p>
-                    </a>
-                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser">
-                        <li><a class="dropdown-item" href="/#">Настройки</a></li>
-                        <li><hr class="dropdown-divider "></li>
-                        <li><a class="dropdown-item" href="/#">Выйти</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active text-decoration-none" href="{{ url_for('main.index') }}">Авторизация</a>
-                </li>
-            </ul>
-        </div>
-    </div>
 </header>
 <main id="content">{% block main %}{% endblock %}</main>
 {% block tail_js %}{% endblock %}
