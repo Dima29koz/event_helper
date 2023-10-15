@@ -732,3 +732,8 @@ class Product(db.Model):
 
     def __repr__(self):
         return str(self.base_product) + ' - ' + self.state.name
+
+    def delete(self):
+        product_id = self.id
+        delete_obj(self)
+        return product_id

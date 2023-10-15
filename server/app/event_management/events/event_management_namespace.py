@@ -136,6 +136,14 @@ class EventManagementNamespace(Namespace):
             )
 
     @staticmethod
+    @keys_required(user_token=True)
+    @roles_required({Role.organizer, })
+    def on_delete_event_product(data: dict, event: Event, current_user: User):
+        product = event.get_product_by_id(data.get('product_id'))
+        product_id = product.delete()
+        emit('delete_event_product', dict(product_id=product_id), to=event.id)
+
+    @staticmethod
     def _add_member(member_data: dict, event: Event, current_user: User | None):
         try:
             member = event.add_member(member_data)
