@@ -317,7 +317,7 @@ class Event(db.Model):
 
     def add_product(self, product_data: dict):
         added_products, updated_products = self.add_products([product_data])
-        return added_products[0], updated_products[0]
+        return added_products[0] if added_products else None, updated_products[0] if updated_products else None
 
     def add_products(self, products: list[dict]):
         added_products = []
