@@ -110,6 +110,16 @@ class EventManagementNamespace(Namespace):
     @staticmethod
     @keys_required(user_token=True)
     @roles_required({Role.organizer, })
+    def on_set_member_money(data: dict, event: Event, current_user: User):
+        entity_data: dict = data.get('data')
+        member = event.get_member_by_id(entity_data.get('id'))
+        member.set_money_impact(entity_data.get('money_impact'))
+        view = EventMemberView(current_user)
+        emit('update_event_member', view.get_one(member), to=event.id)
+
+    @staticmethod
+    @keys_required(user_token=True)
+    @roles_required({Role.organizer, })
     def on_add_product(data: dict, event: Event, current_user: User):
         product, updated_product = event.add_product(data.get('product'))
         if product:

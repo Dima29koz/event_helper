@@ -222,6 +222,10 @@ class EventMember(db.Model):
         delete_obj(self)
         return member_id
 
+    def set_money_impact(self, value: float):
+        self.money_impact = value
+        db.session.commit()
+
 
 class Event(db.Model):
     """Event model
