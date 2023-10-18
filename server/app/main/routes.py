@@ -6,6 +6,8 @@ from ...utils.route_handlers import handle_refresh_expiring_jwts
 
 @main.after_app_request
 def refresh_expiring_jwts(response):
+    if request.endpoint == 'user_account.logout':
+        return response
     return handle_refresh_expiring_jwts(response)
 
 

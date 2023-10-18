@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_jwt_extended import jwt_required, current_user
+from flask_jwt_extended import jwt_required, current_user, get_jwt_identity
 
 from . import event_management
 from ..models import models
@@ -27,11 +27,14 @@ def get_events():
 
 
 @event_management.route('/member_info/<event_key>', methods=["GET"])
-@jwt_required()
+@jwt_required(optional=True)
 def get_member_info(event_key: str):
     event = models.Event.get_by_key(event_key)
     if not event:
         return jsonify(msg='Wrong event key'), 400
+
+    if get_jwt_identity() is None:
+        return jsonify(roles=['guest'])
 
     roles = []
     if current_user == event.creator:
@@ -40,7 +43,7 @@ def get_member_info(event_key: str):
     if member:
         roles.append(member.role.name)
     if not roles:
-        return jsonify(msg='You are not event member'), 400
+        return jsonify(roles=['guest'])
     return jsonify(roles=roles)
 
 
