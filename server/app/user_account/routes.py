@@ -48,7 +48,7 @@ def registration():
         return jsonify(msg='username is not allowed'), 400
 
     if current_app.config['SEND_MAIL']:
-        send_email_confirmation_mail(user)
+        send_email_confirmation_mail(user, request.headers.get('X-ORIGIN'))
         return jsonify(msg='Проверьте вашу почту и следуйте инструкциям для её подтверждения')
     return jsonify(
         msg='Отправка сообщений отключена',
