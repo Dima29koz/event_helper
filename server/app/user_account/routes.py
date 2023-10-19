@@ -77,10 +77,17 @@ def reset_password_request():
 
 
 @user_account.route('/profile_settings')
+@user_account.route('/profile_settings/<string:username>')
 @jwt_required()
-def profile_settings():
+def profile_settings(username: str = None):
     """view of `profile` page"""
-    return jsonify(UserView(current_user).get_one(current_user))
+    if username is None:
+        return jsonify(UserView(current_user).get_one(current_user))
+
+    user = User.get_by_username(username=username)
+    if not user:
+        return jsonify(msg='user not found'), 404
+    return jsonify(UserView(current_user).get_one(user))
 
 
 @user_account.route('/confirm_email/<string:token>')
