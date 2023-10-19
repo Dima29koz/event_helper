@@ -65,10 +65,10 @@ def reset_password_request():
         return jsonify(msg='user is already authenticated'), 403
     user = User.get_by_username(request_data.get('username'))
     if not user:
-        return jsonify(msg='user not found'), 400
+        return jsonify(msg='Проверьте вашу почту и следуйте инструкциям для сброса пароля')
 
     if current_app.config['SEND_MAIL']:
-        send_password_reset_email(user)
+        send_password_reset_email(user, request.headers.get('X-ORIGIN'))
         return jsonify(msg='Проверьте вашу почту и следуйте инструкциям для сброса пароля')
     return jsonify(
         msg='Отправка сообщений отключена',
@@ -105,8 +105,12 @@ def reset_password(token: str):
     if not user:
         return jsonify(msg='Wrong token'), 400
 
-    user.set_pwd(request_data.get('new_pwd'))
-    return jsonify(msg='Your password has been reset.')
+    new_pwd = request_data.get('pwd')
+    new_pwd_repeat = request_data.get('pwd_repeat')
+    if new_pwd == new_pwd_repeat:
+        user.set_pwd(new_pwd)
+        return jsonify(msg='Your password has been reset.')
+    return jsonify(msg='passwords must match'), 400
 
 
 @user_account.route('/locations', methods=["GET"])
