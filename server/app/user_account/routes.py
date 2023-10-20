@@ -78,10 +78,12 @@ def reset_password_request():
 
 @user_account.route('/profile_settings')
 @user_account.route('/profile_settings/<string:username>')
-@jwt_required()
+@jwt_required(optional=True)
 def profile_settings(username: str = None):
     """view of `profile` page"""
     if username is None:
+        if get_jwt_identity() is None:
+            return jsonify(msg='Missing JWT in headers or cookies'), 401
         return jsonify(UserView(current_user).get_one(current_user))
 
     user = User.get_by_username(username=username)
