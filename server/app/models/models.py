@@ -259,7 +259,7 @@ class Event(db.Model):
     :type products: list[Product]
     """
 
-    def __init__(self, event_data: dict, creator: User, location: 'Location'):
+    def __init__(self, event_data: dict, creator: User):
         self.key = uuid.uuid4().hex
         self.title = event_data.get('title')
         self.description = event_data.get('description')
@@ -269,7 +269,7 @@ class Event(db.Model):
         self.cost_reduction_factor = event_data.get('cost_reduction_factor')
 
         self.creator = creator
-        self.location = EventLocation(location)
+        self.location = EventLocation(event_data.get('location'))
 
         add(self)
 
@@ -392,10 +392,7 @@ class Event(db.Model):
 
     @classmethod
     def create(cls, event_data: dict, creator: User) -> Optional['Event']:
-        location = Location.validate_id_to_user(event_data.get('location_id'), creator)
-        if not location:
-            return
-        event = Event(event_data, creator, location)
+        event = Event(event_data, creator)
         return event
 
     def delete(self):
@@ -495,12 +492,12 @@ class EventLocation(db.Model):
 
     """
 
-    def __init__(self, location: Location):
-        self.name = location.name
-        self.address = location.address
-        self.geo = location.geo
-        self.maps_link = location.maps_link
-        self.description = location.description
+    def __init__(self, location: dict):
+        self.name = location.get('name')
+        self.address = location.get('address')
+        self.geo = location.get('geo')
+        self.maps_link = location.get('maps_link')
+        self.description = location.get('description')
 
     __tablename__ = 'event_location'
     id = db.Column(db.Integer(), primary_key=True)
