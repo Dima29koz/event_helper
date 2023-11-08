@@ -98,7 +98,9 @@ class BaseProductView(BaseView):
 
 
 class EventProductView(BaseView):
+    column_display_all_relations = True
     column_editable_exclude_list = ('event_id',)
+    column_exclude_list = ('event_id', 'event')
     column_formatters = dict(
         event=str,
         base_product=BaseProductView(None).get_one

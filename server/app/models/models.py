@@ -703,6 +703,8 @@ class Product(db.Model):
     :type market: str
     :cvar event_id: Event foreign key
     :type event_id: int
+    :cvar buyer_id: EventMember foreign key
+    :type buyer_id: int
 
     """
 
@@ -728,6 +730,7 @@ class Product(db.Model):
     description = db.Column(db.UnicodeText)
     market = db.Column(db.String(50))
     event_id = db.Column(db.Integer(), db.ForeignKey('event.id', ondelete="CASCADE"))
+    buyer_id = db.Column(db.Integer(), db.ForeignKey('event_member.id'))
 
     base_product = db.relationship("BaseProduct", foreign_keys=[product_id])
 

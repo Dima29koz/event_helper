@@ -143,7 +143,7 @@ class BaseView:
                 else:
                     column = p.columns[0]
 
-                if not is_editable and column.foreign_keys:
+                if not is_editable and column.foreign_keys and not self.column_display_all_relations:
                     continue
 
                 if not self.column_display_pk and column.primary_key:
