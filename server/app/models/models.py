@@ -81,7 +81,7 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     full_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
-    phone = db.Column(db.String(12))
+    phone = db.Column(db.String(20))
     contacts = db.Column(db.String(100))
     is_email_verified = db.Column(db.Boolean, default=False)
     pwd = db.Column(db.String(256), nullable=False)
