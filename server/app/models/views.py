@@ -77,6 +77,10 @@ class ProductCategoryView(BaseView):
 
 
 class ProductTypeView(BaseView):
+    column_formatters = dict(
+        category=lambda category: category.id,
+    )
+
     def __init__(self, current_user):
         super().__init__(models.ProductType, current_user)
 

@@ -555,15 +555,21 @@ class ProductType(db.Model):
     :type id: int
     :cvar name: ProductType name
     :type name: str
+    :cvar category_id: ProductCategory foreign key
+    :type category_id: int
 
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, category_id: int):
         self.name = name
+        self.category_id = category_id
 
     __tablename__ = 'product_type'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
+    category_id = db.Column(db.Integer(), db.ForeignKey('product_category.id', ondelete="CASCADE"), nullable=False)
+
+    category = db.relationship("ProductCategory", foreign_keys=[category_id], backref=db.backref('types', lazy=True))
 
     def __repr__(self):
         return self.name
@@ -573,13 +579,13 @@ class ProductType(db.Model):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
-    def create(cls, name: str) -> 'ProductType':
+    def create(cls, name: str, category_id: int) -> 'ProductType':
         """creates ProductType if name not exists else returns type"""
         p_type = cls.get_by_name(name)
         if p_type:
             return p_type
 
-        p_type = ProductType(name)
+        p_type = ProductType(name, category_id)
         add(p_type)
         return p_type
 
