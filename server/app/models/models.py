@@ -102,8 +102,9 @@ class User(db.Model):
         return check_password_hash(self.pwd, password)
 
     def set_email(self, new_email: str):
+        is_same = self.email == new_email
         self.email = new_email
-        self.is_email_verified = False
+        self.is_email_verified = is_same
         db.session.commit()
 
     def set_name(self, new_name: str):

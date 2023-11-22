@@ -7,6 +7,7 @@ from server.utils.time import date_from_str
 
 class UserView(BaseView):
     column_exclude_list = ('pwd', 'timestamp')
+    column_editable_exclude_list = ('email', 'is_email_verified', 'pwd', 'timestamp')
     column_formatters = dict(
         email=get_hidden_email,
         pwd=get_hidden_pwd,

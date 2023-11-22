@@ -23,7 +23,7 @@ def login():
     if not user or not user.check_password(request_data.get('pwd')):
         return jsonify(msg='Wrong username or password'), 401
 
-    access_token = create_access_token(identity=user)
+    access_token = create_access_token(identity=user, fresh=current_app.config['JWT_ACCESS_TOKEN_FRESH'])
     refresh_token = create_refresh_token(identity=user)
     response = jsonify(msg='login successful')
     set_access_cookies(response, access_token)
@@ -90,6 +90,42 @@ def profile_settings(username: str = None):
     if not user:
         return jsonify(msg='user not found'), 404
     return jsonify(UserView(current_user).get_one(user))
+
+
+@user_account.route('/edit_profile', methods=['POST'])
+@jwt_required()
+def edit_profile():
+    request_data = request.get_json()
+    view = UserView(current_user)
+    view.update_obj(current_user, request_data)
+    return jsonify(view.get_one(current_user))
+
+
+@user_account.route('/edit_profile/email', methods=['POST'])
+@jwt_required()
+def edit_email():
+    request_data = request.get_json()
+    current_user.set_email(request_data.get('email'))
+
+    if current_app.config['SEND_MAIL']:
+        send_email_confirmation_mail(current_user, request.headers.get('X-ORIGIN'))
+    return jsonify(UserView(current_user).get_one(current_user))
+
+
+@user_account.route('/edit_profile/password', methods=['POST'])
+@jwt_required()
+def edit_password():
+    request_data = request.get_json()
+
+    if not current_user.check_password(request_data.get('current_pwd')):
+        return jsonify(msg='Wrong username or password'), 401
+
+    new_pwd = request_data.get('pwd')
+    new_pwd_repeat = request_data.get('pwd_repeat')
+    if new_pwd == new_pwd_repeat:
+        current_user.set_pwd(new_pwd)
+
+    return jsonify(UserView(current_user).get_one(current_user))
 
 
 @user_account.route('/confirm_email/<string:token>')

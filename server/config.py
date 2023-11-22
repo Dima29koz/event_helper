@@ -28,6 +28,7 @@ class BaseConfig:
     JWT_TOKEN_LOCATION = ["headers", "cookies"]
     JWT_COOKIE_SECURE = False  # In production, this should always be set to True
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
+    JWT_ACCESS_TOKEN_FRESH = datetime.timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=30)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
