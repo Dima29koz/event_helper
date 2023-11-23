@@ -93,9 +93,9 @@ class ProductUnitView(BaseView):
 
 class BaseProductView(BaseView):
     column_formatters = dict(
-        category=str,
-        type=str,
-        unit=str,
+        category=ProductCategoryView(None).get_one,
+        type=ProductTypeView(None).get_one,
+        unit=ProductUnitView(None).get_one,
     )
 
     def __init__(self, current_user):
