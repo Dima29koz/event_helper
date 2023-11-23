@@ -701,7 +701,7 @@ class Product(db.Model):
     :cvar state: product state
     :type state: ProductState
     :cvar amount: amount of products
-    :type amount: int
+    :type amount: float
     :cvar price_final: product purchase price
     :type price_final: float
     :cvar description: product description
@@ -723,7 +723,7 @@ class Product(db.Model):
             state = ProductState[state]
         self.product_id = product_data.get('product_id')
         self.state = state
-        self.amount = product_data.get('amount', 1)
+        self.amount = product_data.get('amount', 0)
         self.price_final = round(float(product_data.get('price_final', 0)), 2)
         self.description = product_data.get('description', None)
         self.market = product_data.get('market', None)
@@ -732,7 +732,7 @@ class Product(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     product_id = db.Column(db.Integer(), db.ForeignKey('base_product.id'), nullable=False)
     state = db.Column(db.Enum(ProductState), nullable=False)
-    amount = db.Column(db.Integer(), nullable=False)
+    amount = db.Column(db.Float(), nullable=False)
     price_final = db.Column(db.Float())
     description = db.Column(db.UnicodeText)
     market = db.Column(db.String(50))
