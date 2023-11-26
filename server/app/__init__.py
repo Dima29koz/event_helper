@@ -46,6 +46,11 @@ def create_app(config: BaseConfig) -> Flask:
     app.register_blueprint(user_account_blueprint)
     app.register_blueprint(event_management_blueprint)
 
-    sio.init_app(app, logger=config.LOGGER, manage_session=config.MANAGE_SESSION)
+    sio.init_app(
+        app,
+        logger=config.LOGGER,
+        manage_session=config.MANAGE_SESSION,
+        cors_allowed_origins=[f'{config.APP_HOST}:5000', 'http://localhost:8080']
+    )
     cors.init_app(app)
     return app

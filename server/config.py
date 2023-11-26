@@ -12,6 +12,8 @@ def get_config():
     match os.environ.get('FLASK_ENV'):
         case 'dev':
             return DevelopmentConfig
+        case 'prod':
+            return ProductionConfig
         case _:
             raise Exception('wrong flask-env type.')
 
@@ -21,7 +23,7 @@ class BaseConfig:
     Base flask-app config object
     """
     DEBUG = False
-    LOGGER = False
+    LOGGER = True
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY')
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
@@ -43,6 +45,8 @@ class BaseConfig:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    APP_HOST = os.environ.get('APP_HOST')
+    APP_PORT = os.environ.get('APP_PORT')
 
 
 class DevelopmentConfig(BaseConfig):
@@ -50,8 +54,21 @@ class DevelopmentConfig(BaseConfig):
     Development flask-app config object
     """
     DEBUG = True
-    LOGGER = True
     SEND_MAIL = False
+    SQLALCHEMY_DATABASE_URI = (
+        f"mysql://"
+        f"{os.environ.get('DEV_DB_USERNAME')}:"
+        f"{os.environ.get('DEV_DB_PASSWORD')}@"
+        f"{os.environ.get('DEV_DB_ADDRESS')}/"
+        f"{os.environ.get('DEV_DB_NAME')}"
+    )
+
+
+class ProductionConfig(BaseConfig):
+    """
+    Production flask-app config object
+    """
+    JWT_COOKIE_SECURE = True
     SQLALCHEMY_DATABASE_URI = (
         f"mysql://"
         f"{os.environ.get('DEV_DB_USERNAME')}:"

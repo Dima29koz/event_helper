@@ -1,12 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Event Helper
+Event Helper - API
 {% endblock %}
 
 {% block main %}
-<div class="container">
-    <h1>Event helper API</h1>
-</div>
-
+<a class="nav-link active text-decoration-none" href="{{ url_for('main.doc') }}">Документация</a>
 {% endblock %}

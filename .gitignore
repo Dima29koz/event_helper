@@ -4,4 +4,6 @@
 
 tmp.*
 /docs/build/
-/client/event_client/
+/client/dist/
+
+*.log

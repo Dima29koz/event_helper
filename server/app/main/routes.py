@@ -1,4 +1,4 @@
-from flask import render_template, jsonify, request, Response
+from flask import render_template, request, Response
 
 from . import main
 from ...utils.route_handlers import handle_refresh_expiring_jwts
@@ -25,6 +25,7 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/test', methods=["GET"])
-def test():
-    return jsonify(msg='hello')
+@main.route('/doc')
+@main.route('/doc/<path:path>')
+def doc(path='index.html'):
+    return main.send_static_file(path)
