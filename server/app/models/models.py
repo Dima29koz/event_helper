@@ -650,7 +650,7 @@ class BaseProduct(db.Model):
         self.category_id = product_data.get('category_id')
         self.type_id = product_data.get('type_id')
         self.unit_id = product_data.get('unit_id')
-        self.price_supposed = product_data.get('price_supposed', 0)
+        self.price_supposed = round(float(product_data.get('price_supposed', 0)), 2)
 
     __tablename__ = 'base_product'
     id = db.Column(db.Integer(), primary_key=True)
@@ -702,6 +702,8 @@ class Product(db.Model):
     :type state: ProductState
     :cvar amount: amount of products
     :type amount: float
+    :cvar price_supposed: supposed product price on this event
+    :type price_supposed: float
     :cvar price_final: product purchase price
     :type price_final: float
     :cvar description: product description
@@ -724,6 +726,7 @@ class Product(db.Model):
         self.product_id = product_data.get('product_id')
         self.state = state
         self.amount = product_data.get('amount', 0)
+        self.price_supposed = round(float(product_data.get('price_supposed', 0)), 2)
         self.price_final = round(float(product_data.get('price_final', 0)), 2)
         self.description = product_data.get('description', None)
         self.market = product_data.get('market', None)
@@ -733,6 +736,7 @@ class Product(db.Model):
     product_id = db.Column(db.Integer(), db.ForeignKey('base_product.id'), nullable=False)
     state = db.Column(db.Enum(ProductState), nullable=False)
     amount = db.Column(db.Float(), nullable=False)
+    price_supposed = db.Column(db.Float())
     price_final = db.Column(db.Float())
     description = db.Column(db.UnicodeText)
     market = db.Column(db.String(50))
