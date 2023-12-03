@@ -8,7 +8,7 @@ from ...utils.route_handlers import handle_refresh_expiring_jwts
 def refresh_expiring_jwts(response):
     if request.endpoint == 'user_account.logout':
         return response
-    return handle_refresh_expiring_jwts(response)
+    return handle_refresh_expiring_jwts(response, bool(request.cookies.get('remember_me')))
 
 
 @main.before_app_request
@@ -26,6 +26,7 @@ def index():
 
 
 @main.route('/doc')
+@main.route('/api/doc')
 @main.route('/doc/<path:path>')
 def doc(path='index.html'):
     return main.send_static_file(path)

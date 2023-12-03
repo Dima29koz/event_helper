@@ -26,17 +26,38 @@ def login():
     access_token = create_access_token(identity=user, fresh=current_app.config['JWT_ACCESS_TOKEN_FRESH'])
     refresh_token = create_refresh_token(identity=user)
     response = jsonify(msg='login successful')
-    set_access_cookies(response, access_token)
-    set_refresh_cookies(response, refresh_token)
+
+    remember = request_data.get('remember')
+    if remember:
+        response.set_cookie(
+            'remember_me',
+            'true',
+            max_age=current_app.config['JWT_REFRESH_TOKEN_EXPIRES']
+        )
+    set_access_cookies(
+        response,
+        access_token,
+        max_age=current_app.config['JWT_ACCESS_TOKEN_EXPIRES'] if remember else None
+    )
+    set_refresh_cookies(
+        response,
+        refresh_token,
+        max_age=current_app.config['JWT_REFRESH_TOKEN_EXPIRES'] if remember else None
+    )
     return response
 
 
 @user_account.route("/refresh", methods=["POST"])
 @jwt_required(refresh=True)
 def refresh():
+    remember = request.cookies.get('remember_me')
     response = jsonify(msg='access token refreshed')
     access_token = create_access_token(identity=current_user)
-    set_access_cookies(response, access_token)
+    set_access_cookies(
+        response,
+        access_token,
+        max_age=current_app.config['JWT_ACCESS_TOKEN_EXPIRES'] if remember else None
+    )
     return response
 
 
@@ -196,5 +217,9 @@ def modify_location(location_id: int):
 def logout():
     """logs out user"""
     response = jsonify(msg='logout successful')
+    response.set_cookie(
+        'remember_me',
+        expires=0,
+    )
     unset_jwt_cookies(response)
     return response
