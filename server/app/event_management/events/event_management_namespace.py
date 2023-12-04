@@ -1,26 +1,45 @@
+from flask import request, session
+from flask_jwt_extended import decode_token
 from flask_socketio import Namespace, join_room, emit, leave_room, send
 
 from server.app.models.models import Event, User, EventMember, Product
 from server.app.models.views import EventView, EventLocationView, EventMemberView, EventProductView
 from server.common.enums import Role, EntityType
 from server.common.exceptions import MemberWithGivenUserIDExists
-from server.utils.decorators import keys_required, socket_roles_required as roles_required
+from server.utils.decorators import (
+    socket_roles_required as roles_required,
+    event_required,
+    user_required
+)
 
 
 class EventManagementNamespace(Namespace):
     @staticmethod
-    @keys_required()
+    @event_required
     def on_connect(event: Event):
         join_room(event.id)
+        if 'sid_to_user_id' not in session:
+            session['sid_to_user_id'] = dict()
+
+        token = request.cookies.get('access_token_cookie')
+        csrf_token = request.cookies.get('csrf_access_token')
+        current_user = None
+        if token and csrf_token:
+            token_data = decode_token(token, csrf_token)
+            current_user = User.get_by_id(token_data.get("sub"))
+
+        session['sid_to_user_id'].update({request.sid: current_user.id if current_user else None})
         send('connected')
 
     @staticmethod
-    @keys_required()
+    @event_required
     def on_disconnect(event: Event):
         leave_room(event.id)
+        session['sid_to_user_id'].pop(request.sid, None)
 
     @staticmethod
-    @keys_required(user_token=True, optional=True)
+    @event_required
+    @user_required(optional=True)
     def on_get_data(data: dict, event: Event, current_user: User | None):
         match data.get('entity'):
             case EntityType.event.name:
@@ -35,7 +54,8 @@ class EventManagementNamespace(Namespace):
                 emit('error', 'NotImplemented')
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     @roles_required({Role.organizer, })
     def on_update_data(data: dict, event: Event, current_user: User):
         entity_data: dict = data.get('data')
@@ -63,20 +83,23 @@ class EventManagementNamespace(Namespace):
                 emit('error', 'NotImplemented')
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     @roles_required()
     def on_delete_event(_: dict, event: Event, current_user: User):
         event_id, key = event.delete()
         emit('delete_event', dict(id=event_id, key=key), to=event.id)
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     @roles_required({Role.organizer, })
     def on_add_member(data: dict, event: Event, current_user: User | None):
         EventManagementNamespace._add_member(data.get('member'), event, current_user)
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     def on_join_event(data: dict, event: Event, current_user: User):
         member_data = data.get('member')
         member_data['role'] = Role.member.name
@@ -84,7 +107,8 @@ class EventManagementNamespace(Namespace):
         EventManagementNamespace._add_member(member_data, event, current_user)
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     def on_update_me(data: dict, event: Event, current_user: User):
         data.pop('user_id', None)
         member_data = data.get('data')
@@ -95,20 +119,23 @@ class EventManagementNamespace(Namespace):
         EventManagementNamespace._update_member(member, member_data, event, current_user)
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     def on_delete_me(_, event: Event, current_user: User):
         member = event.get_member_by_user(current_user)
         EventManagementNamespace._delete_member(member, event)
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     @roles_required({Role.organizer, })
     def on_delete_member(data: dict, event: Event, current_user: User):
         member = event.get_member_by_id(data.get('member_id'))
         EventManagementNamespace._delete_member(member, event)
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     @roles_required({Role.organizer, })
     def on_set_member_money(data: dict, event: Event, current_user: User):
         entity_data: dict = data.get('data')
@@ -118,7 +145,8 @@ class EventManagementNamespace(Namespace):
         emit('update_event_member', view.get_one(member), to=event.id)
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     @roles_required({Role.organizer, })
     def on_add_product(data: dict, event: Event, current_user: User):
         product, updated_product = event.add_product(data.get('product'))
@@ -128,7 +156,8 @@ class EventManagementNamespace(Namespace):
             emit('update_event_product', EventProductView(current_user).get_one(product), to=event.id)
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     @roles_required({Role.organizer, })
     def on_add_products(data: dict, event: Event, current_user: User):
         added_products, updated_products = event.add_products(data.get('products'))
@@ -146,7 +175,8 @@ class EventManagementNamespace(Namespace):
             )
 
     @staticmethod
-    @keys_required(user_token=True)
+    @event_required
+    @user_required()
     @roles_required({Role.organizer, })
     def on_delete_event_product(data: dict, event: Event, current_user: User):
         product = event.get_product_by_id(data.get('product_id'))

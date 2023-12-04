@@ -104,7 +104,7 @@ def profile_settings(username: str = None):
     """view of `profile` page"""
     if username is None:
         if get_jwt_identity() is None:
-            return jsonify(msg='Missing JWT in headers or cookies'), 401
+            return jsonify(msg='Missing cookie "access_token_cookie"'), 401
         return jsonify(UserView(current_user).get_one(current_user))
 
     user = User.get_by_username(username=username)

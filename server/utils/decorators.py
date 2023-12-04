@@ -1,7 +1,7 @@
 from functools import wraps
 
-from flask import jsonify, request
-from flask_jwt_extended import current_user, decode_token
+from flask import jsonify, request, session
+from flask_jwt_extended import current_user
 from socketio.exceptions import ConnectionRefusedError
 
 from server.app.models import models
@@ -24,27 +24,30 @@ def roles_required(roles: set[Role] = None):
     return wrapper
 
 
-def keys_required(user_token=False, optional=False):
+def event_required(fn):
+    @wraps(fn)
+    def decorated_event(*args, **kwargs):
+        event_key = request.headers.get('Event-Key') or kwargs.get('event_key')
+        event = models.Event.get_by_key(event_key)
+        if not event:
+            raise ConnectionRefusedError('Bad event key')
+        return fn(*args, event=event, **kwargs)
+
+    return decorated_event
+
+
+def user_required(optional=False):
     def wrapper(fn):
         @wraps(fn)
         def decorated_event(*args, **kwargs):
-            event_key = request.headers.get('Event-Key') or kwargs.get('event_key')
-            event = models.Event.get_by_key(event_key)
-            if not event:
-                raise ConnectionRefusedError('Bad event key')
-            if user_token:
-                token = request.cookies.get('access_token_cookie')
-                csrf_token = args[0].get('auth', dict()).get('csrf_access_token')
-                if token and csrf_token:
-                    token_data = decode_token(token, csrf_token)
-                    user = models.User.get_by_id(token_data.get("sub"))
-                else:
-                    if optional:
-                        user = None
-                    else:
-                        raise Exception('Missing user auth token')
-                return fn(*args, event=event, current_user=user, **kwargs)
-            return fn(*args, event=event, **kwargs)
+
+            user_id = session.get('sid_to_user_id', dict()).get(request.sid, None)
+            user = models.User.get_by_id(user_id)
+
+            if user is None and not optional:
+                raise Exception('User must be authenticated')
+            else:
+                return fn(*args, current_user=user, **kwargs)
 
         return decorated_event
 
@@ -53,6 +56,7 @@ def keys_required(user_token=False, optional=False):
 
 def socket_roles_required(roles: set[Role] = None):
     """by default requires User to be creator"""
+
     def wrapper(fn):
         @wraps(fn)
         def decorated_event(*args, **kwargs):

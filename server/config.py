@@ -27,7 +27,7 @@ class BaseConfig:
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY')
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
-    JWT_TOKEN_LOCATION = ["headers", "cookies"]
+    JWT_TOKEN_LOCATION = ["cookies"]
     JWT_COOKIE_SECURE = False  # In production, this should always be set to True
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
     JWT_ACCESS_TOKEN_FRESH = datetime.timedelta(minutes=15)
